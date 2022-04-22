@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+import edu.macalester.graphics.GraphicsObject;
+
 public class Cat {
     // private File graphicSource = new File("src/catGraphic.png");
     private BufferedImage basicCatShape, currentCatShape;
@@ -17,8 +19,8 @@ public class Cat {
 
     public Cat(String name) {
         try {
-            this.basicCatShape = ImageIO.read(new File("src/catGraphic.png"));
-            this.currentCatShape = ImageIO.read(new File("src/catGraphic.png"));
+            this.basicCatShape = ImageIO.read(new File("res/cats/catGraphic.png"));
+            this.currentCatShape = ImageIO.read(new File("res/cats/catGraphic.png"));
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -64,7 +66,7 @@ public class Cat {
         }
         this.currentCatShape = this.basicCatShape;
         try {
-            this.basicCatShape = ImageIO.read(new File("src/catGraphic.png"));
+            this.basicCatShape = ImageIO.read(new File("res/cats/catGraphic.png"));
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -72,7 +74,7 @@ public class Cat {
     }
 
     private void exportImage() {
-        String filepath = "C:/Users/Minh Nguyen/OneDrive/Documents/GitHub/course-project-michael_francesca_jay/src/cats/"+ name + ".png";
+        String filepath = "res/cats/"+ name + ".png";
         File f = new File(filepath);
         try {
             f.delete();
@@ -108,7 +110,7 @@ public class Cat {
         updateColor();
     }
 
-    private String getFilepath() {
+    public String getFilepath() {
         return this.currentCatShapeFilepath;
     }
 
@@ -122,4 +124,6 @@ public class Cat {
         System.out.println(nevis1.getFilepath());
         
     }
+
+   
 }
