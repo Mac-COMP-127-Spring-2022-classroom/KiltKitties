@@ -1,4 +1,4 @@
-package cats;
+
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -89,14 +89,14 @@ public class Cat {
         this.currentCatShapeFilepath = filepath;
     }
 
-    private void setFurColor(int red, int green, int blue) {
+    public void setFurColor(int red, int green, int blue) {
         this.furRed = red;
         this.furBlue = blue;
         this.furGreen = green;
         updateColor();
     }
 
-    private void setBellyColor(int red, int green, int blue) {
+    public void setBellyColor(int red, int green, int blue) {
         this.bellyRed = red;
         this.bellyBlue = blue;
         this.bellyGreen = green;
@@ -108,6 +108,10 @@ public class Cat {
         this.eyeBlue = blue;
         this.eyeGreen = green;
         updateColor();
+    }
+
+    public String getFilepathKilt() {
+        return this.currentCatShapeFilepath.substring(4);
     }
 
     public String getFilepath() {

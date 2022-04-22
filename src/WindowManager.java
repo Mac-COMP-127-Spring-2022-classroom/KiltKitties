@@ -1,4 +1,4 @@
-package cats;
+
 import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
@@ -25,8 +25,10 @@ public class WindowManager {
 public WindowManager(){
 
     cat = new Cat("marvin");
+    cat.setFurColor(55, 110, 22);
+    cat.setBellyColor(12, 80, 96);
     canvas = new CanvasWindow("Cats!", CANVAS_WIDTH, CANVAS_HEIGHT);
-    catImage = new Image("cats/marvin.png");
+    catImage = new Image(cat.getFilepathKilt());
     currencyAvailable = 1000;
     buyButton = new Button("Buy");
     buyButton.setPosition(CANVAS_WIDTH*0.4 - buyButton.getWidth(), CANVAS_HEIGHT*0.7);
@@ -79,11 +81,10 @@ public void sellCat(String fileName, int price ){
 //     bool = true;
 // }
 
-private void addCatPng(double x, double y){
-    // catImage.setImagePath(cat.getFilepath()); 
+private void addCatPng(double x, double y){ 
     catImage.setCenter(x, y);
     canvas.add(catImage);
-    addCatButton(x, y+70);
+    addCatButton(x, y+catImage.getHeight()/2);
 }
 
 
