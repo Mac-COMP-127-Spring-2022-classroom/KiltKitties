@@ -14,26 +14,21 @@ public class Cat {
     private int furRed, furGreen, furBlue;
     private int eyeRed, eyeGreen, eyeBlue;
     private int bellyRed, bellyGreen, bellyBlue;
+    private Gene gene;
+    private String furTrait, bellyTrait, eyeTrait;
 
-    public Cat(String name) {
+    public Cat(String name, int furMaxLevel, int bellyMaxLevel, int eyeMaxLevel) {
         try {
-            this.basicCatShape = ImageIO.read(new File("src/catGraphic.png"));
-            this.currentCatShape = ImageIO.read(new File("src/catGraphic.png"));
+            this.basicCatShape = ImageIO.read(new File("res/catGraphic.png"));
+            this.currentCatShape = ImageIO.read(new File("res/catGraphic.png"));
         } catch (IOException e) {
             System.out.println(e);
         }
         this.name = name;
-        this.generation = 0;
-        this.furRed = 255;
-        this.furGreen = 255;
-        this.furBlue = 255;
-        this.eyeRed = 255;
-        this.eyeGreen = 255;
-        this.eyeBlue = 255;
-        this.bellyRed = 255;
-        this.bellyGreen = 255;
-        this.bellyBlue = 255;
-        updateColor();
+        this.gene = new Gene(furMaxLevel, bellyMaxLevel, eyeMaxLevel);
+        setFurColorName(gene.getFurTraitList().get(0));
+        setBellyColorName(gene.getBellyTraitList().get(0));
+        setEyeColorName(gene.getEyeTraitList().get(0));
     }
 
     private void updateColor() {
@@ -64,7 +59,7 @@ public class Cat {
         }
         this.currentCatShape = this.basicCatShape;
         try {
-            this.basicCatShape = ImageIO.read(new File("src/catGraphic.png"));
+            this.basicCatShape = ImageIO.read(new File("res/catGraphic.png"));
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -72,7 +67,7 @@ public class Cat {
     }
 
     private void exportImage() {
-        String filepath = "C:/Users/Minh Nguyen/OneDrive/Documents/GitHub/course-project-michael_francesca_jay/src/cats/"+ name + ".png";
+        String filepath = "res/cat/"+ name + ".png";
         File f = new File(filepath);
         try {
             f.delete();
@@ -87,39 +82,68 @@ public class Cat {
         this.currentCatShapeFilepath = filepath;
     }
 
-    private void setFurColor(int red, int green, int blue) {
+    public void setFurColor(int red, int green, int blue) {
         this.furRed = red;
         this.furBlue = blue;
         this.furGreen = green;
         updateColor();
     }
 
-    private void setBellyColor(int red, int green, int blue) {
+    public void setBellyColor(int red, int green, int blue) {
         this.bellyRed = red;
         this.bellyBlue = blue;
         this.bellyGreen = green;
         updateColor();
     }
 
-    private void setEyeColor(int red, int green, int blue) {
+    public void setEyeColor(int red, int green, int blue) {
         this.eyeRed = red;
         this.eyeBlue = blue;
         this.eyeGreen = green;
         updateColor();
     }
 
-    private String getFilepath() {
+    public void setFurColorName(String name) {
+        this.furTrait = name;
+        int red = gene.getFurColor(name).get(0);
+        int green = gene.getFurColor(name).get(1);
+        int blue = gene.getFurColor(name).get(2);
+
+        setFurColor(red, green, blue);
+    }
+
+    public void setBellyColorName(String name) {
+        this.bellyTrait = name;
+        int red = gene.getBellyColor(name).get(0);
+        int green = gene.getBellyColor(name).get(1);
+        int blue = gene.getBellyColor(name).get(2);
+
+        setBellyColor(red, green, blue);
+    }
+
+    public void setEyeColorName(String name) {
+        this.eyeTrait = name;
+        int red = gene.getEyeColor(name).get(0);
+        int green = gene.getEyeColor(name).get(1);
+        int blue = gene.getEyeColor(name).get(2);
+
+        setEyeColor(red, green, blue);
+    }
+
+    public void setRandomGene() {
+        this.setFurColorName(gene.getRandomFurGene());
+        this.setBellyColorName(gene.getRandomBellyGene());
+        this.setEyeColorName(gene.getRandomEyeGene());
+    }
+
+    public String getFilepath() {
         return this.currentCatShapeFilepath;
     }
 
     public static void main(String[] args) throws Exception {
-        Cat nevis = new Cat("nevis");
-        Cat nevis1 = new Cat("matthew");
-        nevis.setFurColor(120, 0, 0);
-        nevis1.setEyeColor(0, 66, 122);
-        nevis.setBellyColor(0, 220, 12);
+        Cat nevis = new Cat("nevis", 0, 0, 0);
+        Cat matthew = new Cat("matthew", 0, 0, 0);
         System.out.println(nevis.getFilepath());
-        System.out.println(nevis1.getFilepath());
-        
+        System.out.println(matthew.getFilepath());  
     }
 }
