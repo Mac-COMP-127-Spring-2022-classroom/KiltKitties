@@ -11,14 +11,16 @@ public class Gene {
     private LinkedHashMap<String, List<Integer>> furGene = new LinkedHashMap<String, List<Integer>>();
     private LinkedHashMap<String, List<Integer>> bellyGene = new LinkedHashMap<String, List<Integer>>();
     private LinkedHashMap<String, List<Integer>> eyeGene = new LinkedHashMap<String, List<Integer>>();
+    private LinkedHashMap<String, String> accessoriesGene = new LinkedHashMap<String, String>();
 
     private LinkedHashMap<Integer, String> furTraits = new LinkedHashMap<Integer, String>();
     private LinkedHashMap<Integer, String> bellyTraits = new LinkedHashMap<Integer, String>();
     private LinkedHashMap<Integer, String> eyeTraits = new LinkedHashMap<Integer, String>();
+    private LinkedHashMap<Integer, String> accessoriesTraits = new LinkedHashMap<Integer, String>();
 
 
     
-    public Gene(int furMaxLevel, int bellyMaxLevel, int eyeMaxLevel) {
+    public Gene(int furMaxLevel, int bellyMaxLevel, int eyeMaxLevel, int accessoriesMaxLevel) {
         this.furGene.put("ShadowGrey", List.of(177, 177, 190));
         this.furGene.put("Salmon", List.of(244, 167, 146));
         this.furGene.put("Meowgarine", List.of(252, 252, 149));
@@ -114,6 +116,18 @@ public class Gene {
         this.eyeGene.put("Gemini", List.of(239, 225, 218));
         this.eyeGene.put("Dioscuri", List.of(236, 244, 224));
         this.eyeGene.put("Kaleidoscope", List.of(197, 238, 250));
+
+        this.accessoriesGene.put("None", "");
+        this.accessoriesGene.put("Bow", "res/accessories/bowAccessory.png");
+        this.accessoriesGene.put("BowTie", "res/accessories/bowtieAccessory.png");
+        this.accessoriesGene.put("Collar", "res/accessories/collarAccessory.png");
+        this.accessoriesGene.put("Glasses", "res/accessories/glassesAccessory.png");
+        this.accessoriesGene.put("Hat", "res/accessories/hatAccessory.png");
+        this.accessoriesGene.put("Mask", "res/accessories/maskAccessory.png");
+        this.accessoriesGene.put("Mustache", "res/accessories/mustacheAccessory.png");
+        this.accessoriesGene.put("Spots", "res/accessories/spots.png");
+        this.accessoriesGene.put("Stripes", "res/accessories/stripes.png");
+
         
         furTraits.put(35, "");
         furTraits.put(10, "");
@@ -130,6 +144,11 @@ public class Gene {
         eyeTraits.put(3, "");
         eyeTraits.put(2,"");
 
+        accessoriesTraits.put(35, "");
+        accessoriesTraits.put(10, "");
+        accessoriesTraits.put(3, "");
+        accessoriesTraits.put(2,"");
+
         Random rand = new Random();
         List<Integer> levelList = List.of(2, 3, 10, 35);
         for (Integer level: levelList) {
@@ -141,9 +160,13 @@ public class Gene {
         for (Integer level: levelList) {
             eyeTraits.put(level, getRandomEyeGeneLevel(rand.nextInt(eyeMaxLevel + 1)));
         }
+        for (Integer level: levelList) {
+            accessoriesTraits.put(level, getRandomAccessoriesGeneLevel(rand.nextInt(accessoriesMaxLevel + 1)));
+        }
         System.out.println(furTraits);
         System.out.println(bellyTraits);
         System.out.println(eyeTraits);
+        System.out.println(accessoriesTraits);
     }
 
     public List<Integer> getFurColor(String name) {
@@ -156,6 +179,10 @@ public class Gene {
 
     public List<Integer> getEyeColor(String name) {
         return eyeGene.get(name);
+    }
+
+    public String getAccessories(String name) {
+        return accessoriesGene.get(name);
     }
 
     public String getRandomFurGene() {
@@ -231,6 +258,28 @@ public class Gene {
         return returnString;
     }
 
+    public String getRandomAccessoriesGene() {
+        Random rand = new Random();
+        ArrayList<String> keys = new ArrayList<>(accessoriesGene.keySet()); 
+        return keys.get(rand.nextInt(keys.size()));
+    }
+
+    public String getRandomAccessoriesGeneLevel(int level) {
+        Random rand = new Random();
+        ArrayList<String> keys = new ArrayList<>(accessoriesGene.keySet()); 
+        String returnString = new String();
+        if (level == 0) {
+            returnString = keys.get(0);
+        } else if (level == 1) {
+            returnString = keys.get(1 + rand.nextInt(4));
+        } else if (level == 2) {
+            returnString = keys.get(5 + rand.nextInt(3));
+        } else if (level == 3) {
+            returnString = keys.get(8 + rand.nextInt(2));
+        }
+        return returnString;
+    }
+
     public ArrayList<String> getFurTraitList() {
         ArrayList<String> keys = new ArrayList<>(furTraits.values());
         System.out.println(keys);
@@ -245,6 +294,12 @@ public class Gene {
 
     public ArrayList<String> getEyeTraitList() {
         ArrayList<String> keys = new ArrayList<>(eyeTraits.values());
+        System.out.println(keys);
+        return keys;
+    }
+
+    public ArrayList<String> getAccessoriesTraitList() {
+        ArrayList<String> keys = new ArrayList<>(accessoriesTraits.values());
         System.out.println(keys);
         return keys;
     }

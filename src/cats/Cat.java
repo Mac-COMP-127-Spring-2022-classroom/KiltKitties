@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 
 public class Cat {
     // private File graphicSource = new File("src/catGraphic.png");
-    private BufferedImage basicCatShape, currentCatShape;
+    private BufferedImage basicCatShape, currentCatShape, overlay;
     private String name;
     private String currentCatShapeFilepath;
     private int generation;
@@ -15,9 +15,9 @@ public class Cat {
     private int eyeRed, eyeGreen, eyeBlue;
     private int bellyRed, bellyGreen, bellyBlue;
     private Gene gene;
-    private String furTrait, bellyTrait, eyeTrait;
+    private String furTrait, bellyTrait, eyeTrait, accessoriesTrait;
 
-    public Cat(String name, int furMaxLevel, int bellyMaxLevel, int eyeMaxLevel) {
+    public Cat(String name, int furMaxLevel, int bellyMaxLevel, int eyeMaxLevel, int accessoriesMaxLevel) {
         try {
             this.basicCatShape = ImageIO.read(new File("res/catGraphic.png"));
             this.currentCatShape = ImageIO.read(new File("res/catGraphic.png"));
@@ -25,13 +25,14 @@ public class Cat {
             System.out.println(e);
         }
         this.name = name;
-        this.gene = new Gene(furMaxLevel, bellyMaxLevel, eyeMaxLevel);
+        this.gene = new Gene(furMaxLevel, bellyMaxLevel, eyeMaxLevel, accessoriesMaxLevel);
         setFurColorName(gene.getFurTraitList().get(0));
         setBellyColorName(gene.getBellyTraitList().get(0));
         setEyeColorName(gene.getEyeTraitList().get(0));
+        setAccesoriesName(gene.getAccessoriesTraitList().get(0));
     }
 
-    private void updateColor() {
+    private void updatePicture() {
         int alpha = 255;
         int fur = basicCatShape.getRGB(0, 0);
         int eye = basicCatShape.getRGB(0, 0);
@@ -57,6 +58,20 @@ public class Cat {
                 }
             }
         }
+        if (this.overlay != null) { 
+            for (int y = 0; y < overlay.getHeight(); y++) {
+                for (int x = 0; x < overlay.getWidth(); x++) {
+                    int p = overlay.getRGB(x, y);
+                    int a = (p>>24)&0xff;
+                    // int red = (pixelRGB & 0x00ff0000) >> 16;
+                    // int green = (pixelRGB & 0x00ff0000) >> 8;
+                    // int blue = (pixelRGB & 0x00ff0000);
+                    if (a != 0) {
+                        basicCatShape.setRGB(x, y, p);
+                    }
+                }
+            }
+        }    
         this.currentCatShape = this.basicCatShape;
         try {
             this.basicCatShape = ImageIO.read(new File("res/catGraphic.png"));
@@ -86,21 +101,21 @@ public class Cat {
         this.furRed = red;
         this.furBlue = blue;
         this.furGreen = green;
-        updateColor();
+        updatePicture();
     }
 
     public void setBellyColor(int red, int green, int blue) {
         this.bellyRed = red;
         this.bellyBlue = blue;
         this.bellyGreen = green;
-        updateColor();
+        updatePicture();
     }
 
     public void setEyeColor(int red, int green, int blue) {
         this.eyeRed = red;
         this.eyeBlue = blue;
         this.eyeGreen = green;
-        updateColor();
+        updatePicture();
     }
 
     public void setFurColorName(String name) {
@@ -130,10 +145,23 @@ public class Cat {
         setEyeColor(red, green, blue);
     }
 
+    public void setAccesoriesName(String name) {
+        this.accessoriesTrait = name;
+        if (this.accessoriesTrait != "None") {
+            try {
+                this.overlay = ImageIO.read(new File(gene.getAccessories(this.accessoriesTrait)));
+            }  catch (IOException e) {
+                System.out.println(e);
+            }
+        }
+        updatePicture();
+    }
+
     public void setRandomGene() {
         this.setFurColorName(gene.getRandomFurGene());
         this.setBellyColorName(gene.getRandomBellyGene());
         this.setEyeColorName(gene.getRandomEyeGene());
+        this.setAccesoriesName(gene.getRandomAccessoriesGene());
     }
 
     public String getFilepath() {
@@ -141,8 +169,8 @@ public class Cat {
     }
 
     public static void main(String[] args) throws Exception {
-        Cat nevis = new Cat("nevis", 0, 0, 0);
-        Cat matthew = new Cat("matthew", 0, 0, 0);
+        Cat nevis = new Cat("nevis", 0, 0, 0, 2);
+        Cat matthew = new Cat("matthew", 0, 0,0, 2);
         System.out.println(nevis.getFilepath());
         System.out.println(matthew.getFilepath());  
     }
