@@ -268,13 +268,13 @@ public class Gene {
         Random rand = new Random();
         ArrayList<String> keys = new ArrayList<>(accessoriesGene.keySet()); 
         String returnString = new String();
-        if (level == 0) {
+        if (level == 0 || level == 1) {
             returnString = keys.get(0);
-        } else if (level == 1) {
-            returnString = keys.get(1 + rand.nextInt(4));
         } else if (level == 2) {
-            returnString = keys.get(5 + rand.nextInt(3));
+            returnString = keys.get(1 + rand.nextInt(4));
         } else if (level == 3) {
+            returnString = keys.get(5 + rand.nextInt(3));
+        } else if (level == 4) {
             returnString = keys.get(8 + rand.nextInt(2));
         }
         return returnString;
@@ -302,5 +302,127 @@ public class Gene {
         ArrayList<String> keys = new ArrayList<>(accessoriesTraits.values());
         System.out.println(keys);
         return keys;
+    }
+
+    public int getFurTraitLevel(String string) {
+        ArrayList<String> keys = new ArrayList<>(furGene.keySet());
+        int index = keys.indexOf(string);
+        if (index <= 15) {
+            return 0;
+        } else if (index <= 23) {
+            return 1;
+        } else if (index <= 27) {
+            return 2;
+        } else if (index <= 29) {
+            return 3;
+        } else {
+            return 4;
+        }
+    }
+
+    public int getBellyTraitLevel(String string) {
+        ArrayList<String> keys = new ArrayList<>(bellyGene.keySet());
+        int index = keys.indexOf(string);
+        if (index <= 15) {
+            return 0;
+        } else if (index <= 23) {
+            return 1;
+        } else if (index <= 27) {
+            return 2;
+        } else if (index <= 29) {
+            return 3;
+        } else {
+            return 4;
+        }
+    }
+
+    public int getEyeTraitLevel(String string) {
+        ArrayList<String> keys = new ArrayList<>(eyeGene.keySet());
+        int index = keys.indexOf(string);
+        if (index <= 15) {
+            return 0;
+        } else if (index <= 23) {
+            return 1;
+        } else if (index <= 27) {
+            return 2;
+        } else if (index <= 29) {
+            return 3;
+        } else {
+            return 4;
+        }
+    }
+
+    public int getAccessoriesTraitLevel(String string) {
+        ArrayList<String> keys = new ArrayList<>(accessoriesGene.keySet());
+        int index = keys.indexOf(string);
+        if (index <= 0) {
+            return 0;
+        } else if (index <= 4) {
+            return 2;
+        } else if (index <= 7) {
+            return 3;
+        } else {
+            return 4;
+        }
+    }
+
+    public int getFurProbablity(String trait) {
+        int index = getFurTraitList().indexOf(trait);
+        if (index == 0) {
+            return 35;
+        } else if (index == 1) {
+            return 10;
+        } else if (index == 2) {
+            return 3;
+        } else if (index == 3) {
+            return 2;
+        } else {
+            return 0;
+        }
+    }
+
+    public int getBellyProbablity(String trait) {
+        int index = getBellyTraitList().indexOf(trait);
+        if (index == 0) {
+            return 35;
+        } else if (index == 1) {
+            return 10;
+        } else if (index == 2) {
+            return 3;
+        } else if (index == 3) {
+            return 2;
+        } else {
+            return 0;
+        }
+    }
+
+    public int getEyeProbablity(String trait) {
+        int index = getEyeTraitList().indexOf(trait);
+        if (index == 0) {
+            return 35;
+        } else if (index == 1) {
+            return 10;
+        } else if (index == 2) {
+            return 3;
+        } else if (index == 3) {
+            return 2;
+        } else {
+            return 0;
+        }
+    }
+
+    public int getAccessoriesProbablity(String trait) {
+        int index = getAccessoriesTraitList().indexOf(trait);
+        if (index == 0) {
+            return 35;
+        } else if (index == 1) {
+            return 10;
+        } else if (index == 2) {
+            return 3;
+        } else if (index == 3) {
+            return 2;
+        } else {
+            return 0;
+        }
     }
 }
