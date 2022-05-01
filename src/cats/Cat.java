@@ -49,11 +49,11 @@ public class Cat {
                 // int red = (pixelRGB & 0x00ff0000) >> 16;
                 // int green = (pixelRGB & 0x00ff0000) >> 8;
                 // int blue = (pixelRGB & 0x00ff0000);
-                if (r > 250) {
+                if (r == 255 && g == 0 && b == 0) {
                     basicCatShape.setRGB(x, y, fur);
-                } else if(g > 250) {
+                } else if(g == 255 && r == 0 && b == 0) {
                     basicCatShape.setRGB(x, y, eye);
-                } else if (b > 250) {
+                } else if (b == 255 && g == 0 && r == 0) {
                     basicCatShape.setRGB(x, y, belly);
                 }
             }
