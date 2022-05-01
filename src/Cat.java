@@ -1,5 +1,4 @@
 
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -40,21 +39,23 @@ public class Cat {
 
     private void updateColor() {
         int alpha = 255;
+        int alphaBackground = 200;
         int fur = basicCatShape.getRGB(0, 0);
         int eye = basicCatShape.getRGB(0, 0);
         int belly = basicCatShape.getRGB(0, 0);
+        int background = basicCatShape.getRGB(0, 0);
         fur = (alpha<<24) | (furRed<<16) | (furGreen<<8) | furBlue;
         eye = (alpha<<24) | (eyeRed<<16) | (eyeGreen<<8) | eyeBlue;
         belly = (alpha<<24) | (bellyRed<<16) | (bellyGreen<<8) | bellyBlue;
         for (int y = 0; y < basicCatShape.getHeight(); y++) {
             for (int x = 0; x < basicCatShape.getWidth(); x++) {
                 int p = basicCatShape.getRGB(x, y);
+                int a = (p>>24)&0xff;
                 int r = (p>>16)&0xff;
                 int g = (p>>8)&0xff;
                 int b = p&0xff;
                 // int red = (pixelRGB & 0x00ff0000) >> 16;
                 // int green = (pixelRGB & 0x00ff0000) >> 8;
-                // int blue = (pixelRGB & 0x00ff0000);
                 if (r > 250) {
                     basicCatShape.setRGB(x, y, fur);
                 } else if(g > 250) {
@@ -103,12 +104,19 @@ public class Cat {
         updateColor();
     }
 
-    private void setEyeColor(int red, int green, int blue) {
+    public void setEyeColor(int red, int green, int blue) {
         this.eyeRed = red;
         this.eyeBlue = blue;
         this.eyeGreen = green;
         updateColor();
     }
+
+    // public void setBackgroundColor(int red, int green, int blue) {
+    //     this.backgroundRed = red;
+    //     this.backgroundGreen = green;
+    //     this.backgroundBlue = blue;
+    //     updateColor();
+    // }
 
     public String getFilepathKilt() {
         return this.currentCatShapeFilepath.substring(4);
@@ -124,6 +132,7 @@ public class Cat {
         nevis.setFurColor(120, 0, 0);
         nevis1.setEyeColor(0, 66, 122);
         nevis.setBellyColor(0, 220, 12);
+        // nevis1.setBackgroundColor(44, 44, 44);
         System.out.println(nevis.getFilepath());
         System.out.println(nevis1.getFilepath());
         
