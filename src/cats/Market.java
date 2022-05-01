@@ -5,7 +5,7 @@ import java.util.Random;
 public class Market {
     private static final int PRICE = 100;
     private int money, baseBuyPrice, baseSellPrice, evolutionPrice;
-    private Random rand;
+    private Random rand = new Random();
 
     public Market(int money) {
         this.money = money;
@@ -20,32 +20,53 @@ public class Market {
         int multiplierBelly = 100;
         int multiplierEye = 100;
         int multiplierAccessories = 100;
+        int index = 0;
         Gene gene = cat.getGene();
         for (String trait: gene.getFurTraitList()) {
-            multiplierFur = multiplierFur + getMultiplier(gene.getFurTraitLevel(trait), gene.getFurProbablity(trait));
-        } for (String trait: gene.getBellyTraitList()) {
-            multiplierBelly = multiplierBelly + getMultiplier(gene.getBellyTraitLevel(trait), gene.getBellyProbablity(trait));
-        } for (String trait: gene.getEyeTraitList()) {
-            multiplierEye = multiplierEye + getMultiplier(gene.getEyeTraitLevel(trait), gene.getEyeProbablity(trait));
-        } for (String trait: gene.getAccessoriesTraitList()) {
-            multiplierAccessories = multiplierAccessories + getMultiplier(gene.getAccessoriesTraitLevel(trait), gene.getAccessoriesProbablity(trait));
+            multiplierFur = multiplierFur + getMultiplier(gene.getFurTraitLevel(trait), gene.getProbablity(index));
+            System.out.println(multiplierFur);
+            index = index + 1;
         }
-        int finalMultiplier = multiplierFur * multiplierBelly * multiplierEye * multiplierAccessories / (100000000);
-        return sellPrice * finalMultiplier;
+        index = 0;
+        for (String trait: gene.getBellyTraitList()) {
+            multiplierBelly = multiplierBelly + getMultiplier(gene.getBellyTraitLevel(trait), gene.getProbablity(index));
+            System.out.println(multiplierBelly);
+            index = index + 1;
+        }
+        index = 0;
+         for (String trait: gene.getEyeTraitList()) {
+            multiplierEye = multiplierEye + getMultiplier(gene.getEyeTraitLevel(trait), gene.getProbablity(index));
+            System.out.println(multiplierEye);
+            index = index + 1;
+        }
+        index = 0;
+        for (String trait: gene.getAccessoriesTraitList()) {
+            multiplierAccessories = multiplierAccessories + getMultiplier(gene.getAccessoriesTraitLevel(trait), gene.getProbablity(index));
+            System.out.println(multiplierAccessories);
+            index = index + 1;
+        }
+        double finalMultiplier = multiplierFur * multiplierBelly * multiplierEye * multiplierAccessories / (100000000.0);
+        System.out.println(finalMultiplier);
+        sellPrice = (int) Math.round(sellPrice * finalMultiplier);
+        return sellPrice;
     }
-
     public int getMultiplier(int level, int probablility) {
+        int multiplier = 0;
+        System.out.println(level);
+        System.out.println(probablility);
         if (level == 0) {
-            return rand.nextInt( (int) Math.round(Math.floor(probablility / 10)) + 1);
+            multiplier = rand.nextInt( (int) Math.round(Math.floor(probablility / 10)) + 1);
         } else if (level == 1) {
-            return rand.nextInt((int) Math.round(Math.floor(probablility / 5)) + 1);
+            multiplier = rand.nextInt((int) Math.round(Math.floor(probablility / 5)) + 1);
         } else if (level == 2) {
-            return rand.nextInt((int) Math.round(Math.floor(probablility / 3)) + 1);
+            multiplier = rand.nextInt((int) Math.round(Math.floor(probablility / 3)) + 1);
         } else if (level == 3) {
-            return rand.nextInt((int) Math.round(Math.floor(probablility / 2)) + 1);
+            multiplier = rand.nextInt((int) Math.round(Math.floor(probablility / 2)) + 1);
         } else {
-            return rand.nextInt(probablility + 1);
+            multiplier = rand.nextInt(probablility + 1);
         }
+        System.out.println(multiplier);
+        return multiplier;
     }
 
     private int generateRandomLevel(){
@@ -71,6 +92,7 @@ public class Market {
         if (money - baseBuyPrice < 0) 
             return null;
         else {
+            money = money - baseBuyPrice;
             return new Cat(name, generateRandomLevel(), generateRandomLevel(), generateRandomLevel(), generateRandomLevel());
         }
     }
@@ -80,6 +102,12 @@ public class Market {
     }
     public static void main(String[] args) {
         Market market = new Market(1000);
-        market.sellCat(new Cat("Tundra", 2, 2, 2, 1));
+        System.out.println(market.getMoney());
+        market.sellCat(new Cat("Tundra", 3, 3, 3, 3));
+        System.out.println(market.getMoney());
+        market.buyCat("Henry");
+        market.buyCat("Michael");
+        System.out.println(market.getMoney());
+
     }
 }

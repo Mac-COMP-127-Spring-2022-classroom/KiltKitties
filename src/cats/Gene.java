@@ -366,53 +366,7 @@ public class Gene {
         }
     }
 
-    public int getFurProbablity(String trait) {
-        int index = getFurTraitList().indexOf(trait);
-        if (index == 0) {
-            return 35;
-        } else if (index == 1) {
-            return 10;
-        } else if (index == 2) {
-            return 3;
-        } else if (index == 3) {
-            return 2;
-        } else {
-            return 0;
-        }
-    }
-
-    public int getBellyProbablity(String trait) {
-        int index = getBellyTraitList().indexOf(trait);
-        if (index == 0) {
-            return 35;
-        } else if (index == 1) {
-            return 10;
-        } else if (index == 2) {
-            return 3;
-        } else if (index == 3) {
-            return 2;
-        } else {
-            return 0;
-        }
-    }
-
-    public int getEyeProbablity(String trait) {
-        int index = getEyeTraitList().indexOf(trait);
-        if (index == 0) {
-            return 35;
-        } else if (index == 1) {
-            return 10;
-        } else if (index == 2) {
-            return 3;
-        } else if (index == 3) {
-            return 2;
-        } else {
-            return 0;
-        }
-    }
-
-    public int getAccessoriesProbablity(String trait) {
-        int index = getAccessoriesTraitList().indexOf(trait);
+    public int getProbablity(int index) {
         if (index == 0) {
             return 35;
         } else if (index == 1) {

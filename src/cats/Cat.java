@@ -168,6 +168,10 @@ public class Cat {
         return this.currentCatShapeFilepath;
     }
 
+    public Gene getGene() {
+        return this.gene;
+    }
+
     public static void main(String[] args) throws Exception {
         Cat nevis = new Cat("nevis", 0, 0, 0, 2);
         Cat matthew = new Cat("matthew", 0, 0,0, 2);
