@@ -1,9 +1,15 @@
 package cats;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Market {
     private static final int PRICE = 100;
+    private ArrayList<String> catNamesNotInUse = 
+    new ArrayList<>(List.of("Francesca", "Michael", "Jay", "Marvin", "Nevis", "Tundra", "Pinky", "Princess",
+     "Prince", "Benjamin", "Le Chat", "Bubbles", "Catniss", "Tom", "CAThereine", "Olivier", "Henry", "Olivia"));
+    private ArrayList<String> catNamesInUse = new ArrayList<>(List.of("Maca", "Lester")); 
     private int money, baseBuyPrice, baseSellPrice, evolutionPrice;
     private Random rand = new Random();
 
@@ -84,30 +90,55 @@ public class Market {
         }
     }
 
-    public void sellCat(Cat cat) {
-        this.money += priceCat(cat);
+    private String pickRandomNames() {
+        int index = rand.nextInt(catNamesNotInUse.size());
+        String newName = catNamesNotInUse.get(index);
+        catNamesInUse.add(newName);
+        catNamesNotInUse.remove(index);
+        return newName;
     }
 
-    public Cat buyCat(String name) {
+    public void sellCat(Cat cat) {
+        this.money += priceCat(cat);
+        catNamesInUse.remove(catNamesInUse.indexOf(cat.getName()));
+        catNamesNotInUse.add(cat.getName());
+    }
+
+    public Cat buyCat() {
         if (money - baseBuyPrice < 0) 
             return null;
         else {
             money = money - baseBuyPrice;
+            String name = pickRandomNames();
             return new Cat(name, generateRandomLevel(), generateRandomLevel(), generateRandomLevel(), generateRandomLevel());
         }
+    }
+
+    public Cat evolve(Cat cat1, Cat cat2) {
+        return null;
     }
 
     public int getMoney() {
         return money;
     }
+
+    public Cat evolutionCat(Cat cat1, Cat cat2) {
+        if (money - evolutionPrice < 0) {
+            return null;
+        } else {
+            money = money - evolutionPrice;
+            return evolve(cat1, cat2);
+
+        }
+
+    }
     public static void main(String[] args) {
         Market market = new Market(1000);
         System.out.println(market.getMoney());
-        market.sellCat(new Cat("Tundra", 3, 3, 3, 3));
+        market.sellCat(new Cat("Maca", 3, 3, 3, 3));
         System.out.println(market.getMoney());
-        market.buyCat("Henry");
-        market.buyCat("Michael");
+        market.buyCat();
+        market.buyCat();
         System.out.println(market.getMoney());
-
     }
 }

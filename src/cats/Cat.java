@@ -34,6 +34,21 @@ public class Cat {
         setAccesoriesName(gene.getAccessoriesTraitList().get(0));
     }
 
+    public Cat(String name, String furTrait, String bellyTrait, String eyeTrait, String accessoriesTrait, int furMaxLevel, int bellyMaxLevel, int eyeMaxLevel, int accessoriesMaxLevel) {
+        try {
+            this.basicCatShape = ImageIO.read(new File("res/catGraphic.png"));
+            this.currentCatShape = ImageIO.read(new File("res/catGraphic.png"));
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        this.name = name;
+        this.gene = new Gene(furTrait, bellyTrait, eyeTrait, accessoriesTrait, furMaxLevel, bellyMaxLevel, eyeMaxLevel, accessoriesMaxLevel);
+        setFurColorName(gene.getFurTraitList().get(0));
+        setBellyColorName(gene.getBellyTraitList().get(0));
+        setEyeColorName(gene.getEyeTraitList().get(0));
+        setAccesoriesName(gene.getAccessoriesTraitList().get(0));
+    }
+
     private void updatePicture() {
         int alpha = 255;
         int fur = basicCatShape.getRGB(0, 0);
@@ -178,12 +193,14 @@ public class Cat {
         return this.gene;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     public static void main(String[] args) throws Exception {
         Cat nevis = new Cat("nevis", 0, 0, 0, 2);
-        Cat matthew = new Cat("matthew", 0, 0,0, 2);
+        Cat matthew = new Cat("matthew", "Onyx", "Daffodil", "Gold", "Bow", 0, 0,0, 2);
         System.out.println(nevis.getFilepath());
         System.out.println(matthew.getFilepath());  
     }
-
-   
 }
