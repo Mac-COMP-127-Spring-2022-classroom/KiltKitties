@@ -21,23 +21,27 @@ public class WindowManager {
     private static List<File> initialCatList = new ArrayList<File>();
     private static List<File> boughtCatList = new ArrayList<File>();
     private static List<File> selectedCatList = new ArrayList<File>();
+    private static List<Cat> selectedCatlistCats = new ArrayList<Cat>();
     private int currencyAvailable;
     private Button buyButton;
     private Button sellButton;
     public Cat cat1;
     public Cat cat2;
     public Cat cat3;
+
     public Boolean selected = false;
     private Image catImage1;
-    private Image catImage2;
-    private Image catImage3;
+    // private Image catImage2;
+    // private Image catImage3;
     // private Rectangle selectedRectangle;
     private File catFile1;
     private File catFile2;
     private File catFile3;
+    private Market market;
     private int count;
     private Map<File, Double> imageXCoor = new HashMap<File, Double>();
     private Map<File, Double> imageYCoor = new HashMap<File, Double>();
+    private Map<File, Cat> fileCatMap = new HashMap<File, Cat>();
     private GraphicsText purchaseError1;
     private GraphicsText purchaseError2;
     private GraphicsText saleError1;
@@ -49,6 +53,7 @@ public class WindowManager {
   
 public WindowManager(){
 
+    market = new Market(1000);
     cat1 = new Cat("marvin", 1, 1, 1, 1);
     cat2 = new Cat("matthew", 1, 1, 1, 1);
     cat3 = new Cat("nevis", 1, 1, 1, 1);
@@ -56,8 +61,8 @@ public WindowManager(){
     cat3.setBellyColor(12, 80, 96);
     canvas = new CanvasWindow("Cats!", CANVAS_WIDTH, CANVAS_HEIGHT);
     catImage1 = new Image(cat1.getFilepathKilt());
-    catImage2 = new Image(cat2.getFilepathKilt());
-    catImage3 = new Image(cat3.getFilepathKilt());
+    // catImage2 = new Image(cat2.getFilepathKilt());
+    // catImage3 = new Image(cat3.getFilepathKilt());
     purchaseError1 = new GraphicsText("Cat must be selected to make purchase");
     purchaseError2 = new GraphicsText("Only one cat can be purchased at a time");
     saleError1 = new GraphicsText("Cat must be selected to make sale");
@@ -69,7 +74,6 @@ public WindowManager(){
     buyButton = new Button("Buy");
     buyButton.setPosition(CANVAS_WIDTH*0.4 - buyButton.getWidth(), CANVAS_HEIGHT*0.7);
     buyButton.onClick(() ->{  
-        selectedRectangles.forEach(canvas::remove);
         if (canvas.getElementAt(getCenterX(buyButton)-purchaseError1.getWidth()*0.5+2, getCenterY(buyButton)+23)!=null){
             canvas.remove(canvas.getElementAt(getCenterX(buyButton)-purchaseError1.getWidth()*0.5+2, getCenterY(buyButton)+23));
         }
@@ -77,7 +81,7 @@ public WindowManager(){
             canvas.remove(canvas.getElementAt(getCenterX(buyButton)-purchaseError2.getWidth()*0.5+2, getCenterY(buyButton)+23));
         }
         if(selectedCatList.size() == 1){
-            this.buyCat(selectedCatList.get(0).toString(), 100);
+            buyCat(selectedCatList.get(0).toString(), 100);
         }
         else if (selectedCatList.isEmpty()){
        
@@ -93,7 +97,6 @@ public WindowManager(){
     sellButton = new Button("Sell");
     sellButton.setPosition(CANVAS_WIDTH*0.6, CANVAS_HEIGHT*0.7);
     sellButton.onClick(() ->{
-        selectedRectangles.forEach(canvas::remove);
         if (canvas.getElementAt(getCenterX(sellButton)-saleError1.getWidth()*0.5+2, getCenterY(sellButton)+23)!=null){
             canvas.remove(canvas.getElementAt(getCenterX(sellButton)-saleError1.getWidth()*0.5+2, getCenterY(sellButton)+23));
         }
@@ -119,10 +122,13 @@ public WindowManager(){
   
     catFile1 = new File(cat1.getFilepathKilt());
     initialCatList.add(catFile1);
+    fileCatMap.put(catFile1, cat1);
     catFile2 = new File(cat2.getFilepathKilt());
     initialCatList.add(catFile2);
+    fileCatMap.put(catFile2, cat2);
     catFile3 = new File(cat3.getFilepathKilt());
     initialCatList.add(catFile3);
+    fileCatMap.put(catFile3, cat3);
     count = 0;
     
 }  
@@ -134,27 +140,39 @@ public static void main(String[] args){
     windowManager.addCatPngs(initialCatList);
 
 }
-public void buyCat(String fileName, int price){
-    File catFile = new File(fileName);
-    if(!boughtCatList.contains(catFile)){
-        boughtCatList.add(catFile);
-        currencyAvailable -= price;
-        String s = String.valueOf(currencyAvailable);
-        currencyCount.setText("Available Currency: " +(s));
+public void buyCat(String catName, int price){
+    // File catFile = new File(catName);
+    // if(!boughtCatList.contains(catFile)){
+        // selectedCatlistCats.add()
+        // selectedRectangles.forEach(canvas::remove);
+        // selectedRectangles.clear();
+        // selectedCatList.remove(catFile);
+        // boughtCatList.add(catFile);
+        Cat newCat = market.buyCat(catName);
+        selectedCatlistCats.add(newCat);
+        // change to be randomly generated name.tofilepath instead of catFile when mapping
+        fileCatMap.put(new File(newCat.getFilepath()), newCat);
+        // currencyAvailable -= price;
+        // String s = String.valueOf(currencyAvailable); 
+        // currencyCount.setText("Available Currency: " +(s));
         canvas.draw();
         System.out.println("Available currency: " + currencyAvailable);
         System.out.println("Cats owned: " + boughtCatList);
     }
 
-}
+
 
 public void sellCat(String fileName, int price){
     File catFile = new File(fileName);
     if(boughtCatList.contains(catFile)){
+        selectedRectangles.forEach(canvas::remove);
+        selectedRectangles.clear();
+        selectedCatList.remove(catFile);
         boughtCatList.remove(catFile);
-        currencyAvailable += price;
-        String s = String.valueOf(currencyAvailable);
-        currencyCount.setText("Available Currency: " +(s));
+        market.sellCat(fileCatMap.get(catFile));
+        // currencyAvailable += price;
+        // String s = String.valueOf(currencyAvailable);
+        // currencyCount.setText("Available Currency: " +(s));
         canvas.draw();
         if(canvas.getElementAt(imageXCoor.get(catFile), imageYCoor.get(catFile))!=null){
             canvas.remove(canvas.getElementAt(imageXCoor.get(catFile), imageYCoor.get(catFile)));
@@ -203,16 +221,7 @@ private void addCatButton(double x, double y, File filePath){
     Button catButton = new Button("Select");
     catButton.setCenter(x, y + catImage1.getHeight()*0.5);
     catButton.onClick(() -> {
-        if(selectedCatList.contains(filePath)){ 
-            canvas.remove(
-            canvas.getElementAt(imageXCoor.get(filePath)-catImage1.getHeight()/1.8 + 2, 
-            imageYCoor.get(filePath)-catImage1.getHeight()/4));
-            selectedCatList.remove(filePath);
-        }
-        else if(selectedCatList.size()>=2){
-            int nothing = 0;
-        }
-        else{
+        if (!selectedCatList.contains(filePath)) {
             selectedCatList.add(filePath);
             Rectangle selectedRectangle = new Rectangle(x-catImage1.getHeight()/1.8, y-catImage1.getHeight()/4, catImage1.getWidth()*1.1, catImage1.getHeight()*1.1);
             selectedRectangle.setStrokeColor(Color.GREEN);
