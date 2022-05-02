@@ -42,6 +42,7 @@ public class WindowManager {
     private Map<File, Double> imageXCoor = new HashMap<File, Double>();
     private Map<File, Double> imageYCoor = new HashMap<File, Double>();
     private Map<File, Cat> fileCatMap = new HashMap<File, Cat>();
+    private Map<Cat, File> catFileMap = new HashMap<Cat, File>();
     private GraphicsText purchaseError1;
     private GraphicsText purchaseError2;
     private GraphicsText saleError1;
@@ -74,25 +75,25 @@ public WindowManager(){
     buyButton = new Button("Buy");
     buyButton.setPosition(CANVAS_WIDTH*0.4 - buyButton.getWidth(), CANVAS_HEIGHT*0.7);
     buyButton.onClick(() ->{  
-        if (canvas.getElementAt(getCenterX(buyButton)-purchaseError1.getWidth()*0.5+2, getCenterY(buyButton)+23)!=null){
-            canvas.remove(canvas.getElementAt(getCenterX(buyButton)-purchaseError1.getWidth()*0.5+2, getCenterY(buyButton)+23));
-        }
-        if (canvas.getElementAt(getCenterX(buyButton)-purchaseError2.getWidth()*0.5+2, getCenterY(buyButton)+23)!=null){
-            canvas.remove(canvas.getElementAt(getCenterX(buyButton)-purchaseError2.getWidth()*0.5+2, getCenterY(buyButton)+23));
-        }
-        if(selectedCatList.size() == 1){
-            buyCat(selectedCatList.get(0).toString(), 100);
-        }
-        else if (selectedCatList.isEmpty()){
+        // if (canvas.getElementAt(getCenterX(buyButton)-purchaseError1.getWidth()*0.5+2, getCenterY(buyButton)+23)!=null){
+        //     canvas.remove(canvas.getElementAt(getCenterX(buyButton)-purchaseError1.getWidth()*0.5+2, getCenterY(buyButton)+23));
+        // }
+        // if (canvas.getElementAt(getCenterX(buyButton)-purchaseError2.getWidth()*0.5+2, getCenterY(buyButton)+23)!=null){
+        //     canvas.remove(canvas.getElementAt(getCenterX(buyButton)-purchaseError2.getWidth()*0.5+2, getCenterY(buyButton)+23));
+        // }
+        // if(selectedCatList.size() == 1){
+            buyCat();
+        // }
+        // else if (selectedCatList.isEmpty()){
        
-            purchaseError1.setPosition(getCenterX(buyButton)-purchaseError1.getWidth()*0.5, getCenterY(buyButton)+25);
+        //     purchaseError1.setPosition(getCenterX(buyButton)-purchaseError1.getWidth()*0.5, getCenterY(buyButton)+25);
       
-            canvas.add(purchaseError1);
-        }
-        else{
-            purchaseError2.setPosition(getCenterX(buyButton)-purchaseError2.getWidth()*0.5, getCenterY(buyButton)+25);
-            canvas.add(purchaseError2);
-        }
+        //     canvas.add(purchaseError1);
+        // }
+        // else{
+        //     purchaseError2.setPosition(getCenterX(buyButton)-purchaseError2.getWidth()*0.5, getCenterY(buyButton)+25);
+        //     canvas.add(purchaseError2);
+        // }
     });
     sellButton = new Button("Sell");
     sellButton.setPosition(CANVAS_WIDTH*0.6, CANVAS_HEIGHT*0.7);
@@ -123,11 +124,14 @@ public WindowManager(){
     catFile1 = new File(cat1.getFilepathKilt());
     initialCatList.add(catFile1);
     fileCatMap.put(catFile1, cat1);
+    catFileMap.put(cat1, catFile1);
     catFile2 = new File(cat2.getFilepathKilt());
     initialCatList.add(catFile2);
     fileCatMap.put(catFile2, cat2);
+    catFileMap.put(cat2, catFile2);
     catFile3 = new File(cat3.getFilepathKilt());
     initialCatList.add(catFile3);
+    catFileMap.put(cat3, catFile3);
     fileCatMap.put(catFile3, cat3);
     count = 0;
     
@@ -140,7 +144,7 @@ public static void main(String[] args){
     windowManager.addCatPngs(initialCatList);
 
 }
-public void buyCat(String catName, int price){
+public void buyCat(){
     // File catFile = new File(catName);
     // if(!boughtCatList.contains(catFile)){
         // selectedCatlistCats.add()
@@ -148,14 +152,25 @@ public void buyCat(String catName, int price){
         // selectedRectangles.clear();
         // selectedCatList.remove(catFile);
         // boughtCatList.add(catFile);
-        Cat newCat = market.buyCat(catName);
-        selectedCatlistCats.add(newCat);
+        Cat newCat = market.buyCat();
+        // selectedCatlistCats.add(newCat);
+        // initialCatList.add(newCat);
         // change to be randomly generated name.tofilepath instead of catFile when mapping
-        fileCatMap.put(new File(newCat.getFilepath()), newCat);
+        fileCatMap.put(new File(newCat.getFilepathKilt()), newCat);
+        catFileMap.put(newCat, new File(newCat.getFilepathKilt()));
+        System.out.println(newCat.getFilepathKilt());
+        canvas.pause(500);
+        Image catImage = new Image(newCat.getFilepathKilt());
+        // initialCatList.add(catFileMap.get(newCat));
+        // catImage.setCenter(1000, 700);
+        // imageXCoor.put(i, 120 + x);
+        // imageYCoor.put(i, 120 + y);
+        // System.out.println(imageCoor.get("dog"));  
+        canvas.add(catImage);
         // currencyAvailable -= price;
         // String s = String.valueOf(currencyAvailable); 
         // currencyCount.setText("Available Currency: " +(s));
-        canvas.draw();
+        // canvas.draw();
         System.out.println("Available currency: " + currencyAvailable);
         System.out.println("Cats owned: " + boughtCatList);
     }

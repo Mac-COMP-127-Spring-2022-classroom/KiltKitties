@@ -7,9 +7,9 @@ import java.util.Random;
 public class Market {
     private static final int PRICE = 100;
     private ArrayList<String> catNamesNotInUse = 
-    new ArrayList<>(List.of("Francesca", "Michael", "Jay", "Marvin", "Nevis", "Tundra", "Pinky", "Princess",
-     "Prince", "Benjamin", "Le Chat", "Bubbles", "Catniss", "Tom", "CAThereine", "Olivier", "Henry", "Olivia"));
-    private ArrayList<String> catNamesInUse = new ArrayList<>(List.of("Maca", "Lester")); 
+    new ArrayList<>(List.of("francesca", "michael", "jay", "marvin", "nevis", "tundra", "pinky", "princess",
+     "prince", "benjamin", "lechat", "bubbles", "catniss", "tom", "cathereine", "olivier", "henry", "olivia"));
+    private ArrayList<String> catNamesInUse = new ArrayList<>(List.of("maca", "lester")); 
     private int money, baseBuyPrice, baseSellPrice, evolutionPrice;
     private Random rand = new Random();
 
