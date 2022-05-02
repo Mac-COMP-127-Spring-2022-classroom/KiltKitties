@@ -18,9 +18,16 @@ public class Gene {
     private LinkedHashMap<Integer, String> eyeTraits = new LinkedHashMap<Integer, String>();
     private LinkedHashMap<Integer, String> accessoriesTraits = new LinkedHashMap<Integer, String>();
 
+    private int furMaxLevel, bellyMaxLevel, eyeMaxLevel, accessoriesMaxLevel;
+
 
     
     public Gene(int furMaxLevel, int bellyMaxLevel, int eyeMaxLevel, int accessoriesMaxLevel) {
+        this.furMaxLevel = furMaxLevel;
+        this.bellyMaxLevel = bellyMaxLevel;
+        this.eyeMaxLevel = eyeMaxLevel;
+        this.accessoriesMaxLevel = accessoriesMaxLevel;
+
         this.furGene.put("ShadowGrey", List.of(177, 177, 190));
         this.furGene.put("Salmon", List.of(244, 167, 146));
         this.furGene.put("Meowgarine", List.of(252, 252, 149));
@@ -547,6 +554,22 @@ public class Gene {
 
     public void setFurTrait(String trait) {
         furTraits.put(35, trait);
+    }
+
+    public int getFurMaxLevel(){
+        return furMaxLevel;
+    }
+
+    public int getBellyMaxLevel() {
+        return bellyMaxLevel;
+    }
+
+    public int getEyeMaxLevel() {
+        return eyeMaxLevel;
+    }
+
+    public int getAccessoriesMaxLevel() {
+        return accessoriesMaxLevel;
     }
 
     public static void main(String[] args) {
