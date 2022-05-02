@@ -9,7 +9,7 @@ public class Market {
     private ArrayList<String> catNamesNotInUse = 
     new ArrayList<>(List.of("francesca", "michael", "jay", "marvin", "nevis", "tundra", "pinky", "princess",
      "prince", "benjamin", "lechat", "bubbles", "catniss", "tom", "cathereine", "olivier", "henry", "olivia"));
-    private ArrayList<String> catNamesInUse = new ArrayList<>(List.of("maca", "lester")); 
+    private ArrayList<String> catNamesInUse = new ArrayList<>(List.of("maca", "lester", "2022")); 
     private int money, baseBuyPrice, baseSellPrice, evolutionPrice;
     private Random rand = new Random();
 
