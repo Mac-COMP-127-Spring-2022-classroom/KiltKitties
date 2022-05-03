@@ -12,11 +12,10 @@ import java.util.Map.Entry;
 import java.util.function.Predicate;
 
 public class Market {
-    private static final int PRICE = 100;
     public ArrayList<String> catNamesNotInUse = 
     new ArrayList<>(List.of("francesca", "michael", "jay", "marvin", "nevis", "tundra", "pinky", "princess",
      "prince", "benjamin", "lechat", "bubbles", "catniss", "tom", "cathereine", "olivier", "henry", "olivia"));
-    public ArrayList<String> catNamesInUse = new ArrayList<>(List.of("maca", "lester", "2022")); 
+    private ArrayList<String> catNamesInUse = new ArrayList<>(List.of("maca", "lester", "2022")); 
     private int money, baseBuyPrice, baseSellPrice, evolutionPrice;
     private Random rand = new Random();
 

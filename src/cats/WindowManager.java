@@ -49,11 +49,9 @@ public class WindowManager {
   
 public WindowManager(){
 
-    cat1 = new Cat("marvin", 1, 1, 1, 1);
-    cat2 = new Cat("matthew", 1, 1, 1, 1);
-    cat3 = new Cat("nevis", 1, 1, 1, 1);
-    cat2.setFurColor(55, 110, 22);
-    cat3.setBellyColor(12, 80, 96);
+    cat1 = new Cat("maca", 1, 1, 1, 1);
+    cat2 = new Cat("lester", 1, 1, 1, 1);
+    cat3 = new Cat("2022", 1, 1, 1, 1);
     canvas = new CanvasWindow("Cats!", CANVAS_WIDTH, CANVAS_HEIGHT);
     catImage1 = new Image(cat1.getFilepathKilt());
     catImage2 = new Image(cat2.getFilepathKilt());

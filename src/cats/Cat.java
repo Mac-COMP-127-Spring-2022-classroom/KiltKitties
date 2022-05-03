@@ -5,14 +5,12 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-import edu.macalester.graphics.GraphicsObject;
 
 public class Cat {
     // private File graphicSource = new File("src/catGraphic.png");
     private BufferedImage basicCatShape, currentCatShape, overlay;
     private String name;
     private String currentCatShapeFilepath;
-    private int generation;
     private int furRed, furGreen, furBlue;
     private int eyeRed, eyeGreen, eyeBlue;
     private int bellyRed, bellyGreen, bellyBlue;
@@ -63,9 +61,6 @@ public class Cat {
                 int r = (p>>16)&0xff;
                 int g = (p>>8)&0xff;
                 int b = p&0xff;
-                // int red = (pixelRGB & 0x00ff0000) >> 16;
-                // int green = (pixelRGB & 0x00ff0000) >> 8;
-                // int blue = (pixelRGB & 0x00ff0000);
                 if (r == 255 && g == 0 && b == 0) {
                     basicCatShape.setRGB(x, y, fur);
                 } else if(g == 255 && r == 0 && b == 0) {
