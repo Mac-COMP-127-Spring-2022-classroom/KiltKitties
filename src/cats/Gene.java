@@ -19,8 +19,6 @@ public class Gene {
     private LinkedHashMap<Integer, String> accessoriesTraits = new LinkedHashMap<Integer, String>();
 
     private int furMaxLevel, bellyMaxLevel, eyeMaxLevel, accessoriesMaxLevel;
-
-
     
     public Gene(int furMaxLevel, int bellyMaxLevel, int eyeMaxLevel, int accessoriesMaxLevel) {
         this.furMaxLevel = furMaxLevel;
