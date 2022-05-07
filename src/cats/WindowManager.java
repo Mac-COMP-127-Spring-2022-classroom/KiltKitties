@@ -42,6 +42,7 @@ public class WindowManager {
    private GraphicsText purchaseError1;
    private GraphicsText saleError1;
    private GraphicsText saleError2;
+   private GraphicsText evolveError;
    private GraphicsText currencyCount;
    private GraphicsText catName;
    private ArrayList<Rectangle> selectedRectangles = new ArrayList<>();
@@ -92,7 +93,8 @@ public class WindowManager {
            canvas.add(saleError2);
        }
        else{
-       sellCat(selectedCatList.get(0).toString(), 100);
+        System.out.println(selectedCatList.get(0));    
+        sellCat(selectedCatList.get(0).toString(), 100);
        }
    });
    evolveButton = new Button("Evolve");
@@ -124,43 +126,43 @@ public class WindowManager {
 //    initialCatList.add(catFile2);
 //    fileCatMap.put(catFile2, cat2);
 //    catFileMap.put(cat2, catFile2);
-    Cat newCat = market.buyCat();
-    fileCatMap.put(new File(newCat.getFilepathKilt()), newCat);
-    catFileMap.put(newCat, new File(newCat.getFilepathKilt()));
-    // System.out.println(newCat.getFilepathKilt());
-    canvas.pause(1000);
-    Image catImage = new Image(newCat.getFilepathKilt());
-    catList.add(catImage);
-    int x = ((catList.size() - 1) % 5) * 220 + 120;
-    int y = ((catList.size() - 1) / 5) * 220 + 120;
-    catImage.setCenter(x, y);
-    canvas.add(catImage);
+    // Cat newCat = market.buyCat();
+    // fileCatMap.put(new File(newCat.getFilepathKilt()), newCat);
+    // catFileMap.put(newCat, new File(newCat.getFilepathKilt()));
+    // // System.out.println(newCat.getFilepathKilt());
+    // canvas.pause(1000);
+    // Image catImage = new Image(newCat.getFilepathKilt());
+    // catList.add(catImage);
+    // int x = ((catList.size() - 1) % 5) * 220 + 120;
+    // int y = ((catList.size() - 1) / 5) * 220 + 120;
+    // catImage.setCenter(x, y);
+    // canvas.add(catImage);
 
 
-    String s = String.valueOf(market.getMoney());
-    currencyCount.setText("Available Currency: " +(s));
+    // String s = String.valueOf(market.getMoney());
+    // currencyCount.setText("Available Currency: " +(s));
 
-    addCatButton(x, y, catFileMap.get(newCat), catImage);
-    canvas.draw();
+    // addCatButton(x, y, catFileMap.get(newCat), catImage);
+    // canvas.draw();
 
-    Cat newCat1 = market.buyCat();
-    fileCatMap.put(new File(newCat1.getFilepathKilt()), newCat1);
-    catFileMap.put(newCat1, new File(newCat1.getFilepathKilt()));
-    // System.out.println(newCat.getFilepathKilt());
-    canvas.pause(1000);
-    Image catImage1 = new Image(newCat1.getFilepathKilt());
-    catList.add(catImage1);
-    int x1 = ((catList.size() - 1) % 5) * 220 + 120;
-    int y1 = ((catList.size() - 1) / 5) * 220 + 120;
-    catImage1.setCenter(x1, y1);
-    canvas.add(catImage1);
+    // Cat newCat1 = market.buyCat();
+    // fileCatMap.put(new File(newCat1.getFilepathKilt()), newCat1);
+    // catFileMap.put(newCat1, new File(newCat1.getFilepathKilt()));
+    // // System.out.println(newCat.getFilepathKilt());
+    // canvas.pause(1000);
+    // Image catImage1 = new Image(newCat1.getFilepathKilt());
+    // catList.add(catImage1);
+    // int x1 = ((catList.size() - 1) % 5) * 220 + 120;
+    // int y1 = ((catList.size() - 1) / 5) * 220 + 120;
+    // catImage1.setCenter(x1, y1);
+    // canvas.add(catImage1);
 
 
-    String r = String.valueOf(market.getMoney());
-    currencyCount.setText("Available Currency: " +(r));
+    // String r = String.valueOf(market.getMoney());
+    // currencyCount.setText("Available Currency: " +(r));
 
-    addCatButton(x1, y1, catFileMap.get(newCat1), catImage1);
-    canvas.draw();
+    // addCatButton(x1, y1, catFileMap.get(newCat1), catImage1);
+    // canvas.draw();
   
 
     }
@@ -229,7 +231,9 @@ public void removeSalesErrors(){
  
 public void sellCat(String fileName, int price){
    File catFile = new File(fileName);
+   System.out.println(fileName);
    selectedCatList.remove(catFile);
+   System.out.println(selectedCatList);
    soldCat(catFile);
    //updates currency
    market.sellCat(fileCatMap.get(catFile));
@@ -242,13 +246,16 @@ public void sellCat(String fileName, int price){
 public void soldCat(File catFile){
     double xCoor = selectedImages.get(0).getCenter().getX();
     double yCoor = selectedImages.get(0).getCenter().getY();
+    System.out.println(selectedImages);
     System.out.println(xCoor);
     System.out.println(yCoor);
     selectedImages.clear();
     // List<Double> list = Arrays.asList(xCoor, yCoor);
     // int i = listToInt.get(list);
     // gets removed twice because rectangle is on top of cat and both get removed
+
     if(canvas.getElementAt(xCoor, yCoor)!=null){
+        System.out.println(canvas.getElementAt(xCoor, yCoor));
         canvas.remove(canvas.getElementAt(xCoor, yCoor));
     }
     catList.remove(canvas.getElementAt(xCoor, yCoor)); // Remove cat from list
@@ -258,15 +265,21 @@ public void soldCat(File catFile){
     // removes select button
     buttonList.remove(canvas.getElementAt(xCoor, yCoor + 200*0.5)); // Remove button from buttonList
     canvas.remove(canvas.getElementAt(xCoor, yCoor + 200*0.5));
+    System.out.println(catList);
     // removes cat file from its maps
     // coorToFile.remove(list);
     // return i;
 
     // Repositions all cats
-    for (int cat = 0; cat < catList.size(); cat++) {
+    // for (int cat = 0; cat < catList.size(); cat++) 
+    // int cat = -1;
+    for (int cat = 0; cat < catList.size(); cat++)  {
+        // cat = cat + 1;
+        System.out.println(catList.get(cat));
         int x = (cat % 5) * 220 + 120;
         int y = (cat / 5) * 220 + 120;
         catList.get(cat).setCenter(x, y);
+        // catImage.setCenter(x, y);
     }
 
     // Reposition all the buttons
@@ -366,10 +379,15 @@ private void addCatButton(double x, double y, File filePath, Image catImage){
            selectedRectangles.add(selectedRectangle);
        }
        else if(selectedCatList.contains(filePath)){
+           System.out.println("1");
+           System.out.println(selectedCatList);
            if(canvas.getElementAt(catImage.getCenter().getX(), catImage.getCenter().getY()-80)!=null){
                canvas.remove(canvas.getElementAt(catImage.getCenter().getX(), catImage.getCenter().getY()));
+               selectedCatList.remove(filePath);
+               selectedImages.remove(catImage);
            }
-           selectedCatList.remove(filePath);
+           System.out.println(selectedCatList);
+        //    selectedCatList.remove(filePath);
      
        }
    });
