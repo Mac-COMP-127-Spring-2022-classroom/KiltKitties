@@ -67,6 +67,7 @@ public class WindowManager {
    purchaseError1 = new GraphicsText("Insuffcient funds :(");
    saleError1 = new GraphicsText("Cat must be selected to make sale");
    saleError2 = new GraphicsText("Only one cat can be sold at a time");
+   evolveError = new GraphicsText("Two cats must be selected");
    catName = new GraphicsText("Kitty");
    currencyCount = new GraphicsText("Available Currency: 1000");
    currencyCount.setPosition(50, 700);
@@ -84,14 +85,14 @@ public class WindowManager {
 
        if (selectedCatList.isEmpty()){
      
-           saleError1.setPosition(getCenterX(sellButton)-saleError1.getWidth()*0.5, getCenterY(sellButton)+25);
-    
-           canvas.add(saleError1);
-       }
-       else if(selectedCatList.size()>=2){
-           saleError2.setPosition(getCenterX(sellButton)-saleError2.getWidth()*0.5, getCenterY(sellButton)+25);
-           canvas.add(saleError2);
-       }
+        saleError1.setPosition(getCenterX(sellButton)-saleError1.getWidth()*0.5, getCenterY(sellButton)+25);
+ 
+        canvas.add(saleError1);
+        }
+        else if(selectedCatList.size()>=2){
+            saleError2.setPosition(getCenterX(sellButton)-saleError2.getWidth()*0.5, getCenterY(sellButton)+25);
+            canvas.add(saleError2);
+        }
        else{
         System.out.println(selectedCatList.get(0));    
         sellCat(selectedCatList.get(0).toString(), 100);
@@ -100,24 +101,20 @@ public class WindowManager {
    evolveButton = new Button("Evolve");
    evolveButton.setPosition(CANVAS_WIDTH*0.5, CANVAS_HEIGHT*0.7);
    evolveButton.onClick(() ->{
-       removeSalesErrors();
 
-       if (selectedCatList.isEmpty()){
+       if (selectedCatList.size()!=2){
      
-           saleError1.setPosition(getCenterX(sellButton)-saleError1.getWidth()*0.5, getCenterY(sellButton)+25);
-    
-           canvas.add(saleError1);
-       }
-       else if(selectedCatList.size()>=2){
-           saleError2.setPosition(getCenterX(sellButton)-saleError2.getWidth()*0.5, getCenterY(sellButton)+25);
-           canvas.add(saleError2);
-       }
+        evolveError.setPosition(getCenterX(evolveButton)-evolveError.getWidth()*0.5, getCenterY(evolveButton)+25);
+ 
+        canvas.add(evolveError);
+    }
        else{
-       sellCat(selectedCatList.get(0).toString(), 100);
+       evolveCat(selectedCatList.get(0).toString(), selectedCatList.get(1).toString());
        }
    });
    canvas.add(buyButton);
    canvas.add(sellButton);
+   canvas.add(evolveButton);
 //    catFile1 = new File(cat1.getFilepathKilt());
 //    initialCatList.add(catFile1);
 //    fileCatMap.put(catFile1, cat1);
@@ -175,8 +172,35 @@ public static void main(String[] args){
  
 }
 
-public void evolveCat(){
+public void evolveCat(String fileName1, String fileName2){
+    File catFile1 = new File(fileName1);
+    File catFile2 = new File(fileName2);
+    // // System.out.println(fileName);
+    // selectedCatList.remove(catFile1);
+    // selectedCatList.remove(catFile2);
+    // // System.out.println(selectedCatList);
+    // soldCat(catFile1);
+    // soldCat(catFile2);
+    //updates currency
+    Cat newCat = market.evolve(fileCatMap.get(catFile1),fileCatMap.get(catFile2));;
+    // market.sellCat(fileCatMap.get(catFile2));
+    fileCatMap.put(new File(newCat.getFilepathKilt()), newCat);
+    catFileMap.put(newCat, new File(newCat.getFilepathKilt()));
+    // System.out.println(newCat.getFilepathKilt());
+    canvas.pause(1000);
+    Image catImage = new Image(newCat.getFilepathKilt());
+    catList.add(catImage);
+    int x = ((catList.size() - 1) % 5) * 220 + 120;
+    int y = ((catList.size() - 1) / 5) * 220 + 120;
+    catImage.setCenter(x, y);
+    canvas.add(catImage);
 
+
+    String s = String.valueOf(market.getMoney());
+    currencyCount.setText("Available Currency: " +(s));
+
+    addCatButton(x, y, catFileMap.get(newCat), catImage);
+    canvas.draw();
 }
 
 public void buyCat(){
@@ -227,7 +251,12 @@ public void removeSalesErrors(){
        canvas.remove(canvas.getElementAt(getCenterX(sellButton)-saleError2.getWidth()*0.5+2, getCenterY(sellButton)+23));
    }
 }
- 
+ // doesn't show more than 10 cats
+ // squares belly color behind cats
+ // names change and two names when evolving
+ // background color 
+ // make bigger and center available currency
+ // move buttons
  
 public void sellCat(String fileName, int price){
    File catFile = new File(fileName);

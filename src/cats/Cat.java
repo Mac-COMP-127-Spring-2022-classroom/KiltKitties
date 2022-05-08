@@ -3,6 +3,9 @@ package cats;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.imageio.ImageIO;
 
 
@@ -192,10 +195,16 @@ public class Cat {
         return this.name;
     }
 
+    public ArrayList<Integer> getFurColor() {
+        return new ArrayList<>(List.of(this.furRed, this.furGreen, this.furBlue));
+    }
+
     public static void main(String[] args) throws Exception {
         Cat nevis = new Cat("nevis", 0, 0, 0, 2);
         Cat matthew = new Cat("matthew", "Onyx", "Daffodil", "Gold", "Bow", 0, 0,0, 2);
         System.out.println(nevis.getFilepath());
         System.out.println(matthew.getFilepath());  
     }
+
+
 }
