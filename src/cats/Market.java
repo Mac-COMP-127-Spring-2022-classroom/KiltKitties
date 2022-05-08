@@ -78,7 +78,7 @@ public class Market {
         // System.out.println(level);
         // System.out.println(probablility);
         if (level == 0) {
-            multiplier = rand.nextInt( (int) Math.round(Math.floor(probablility / 10)) + 1);
+            multiplier = rand.nextInt((int) Math.round(Math.floor(probablility / 10)) + 1);
         } else if (level == 1) {
             multiplier = rand.nextInt((int) Math.round(Math.floor(probablility / 5)) + 1);
         } else if (level == 2) {

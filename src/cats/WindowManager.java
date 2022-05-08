@@ -16,7 +16,7 @@ import edu.macalester.graphics.Rectangle;
 import edu.macalester.graphics.ui.Button;
  
  
-public class WindowManager {
+public class WindowManager extends Achievement{
    public static final int CANVAS_WIDTH = 1200;
    public static final int CANVAS_HEIGHT = 800;
    public CanvasWindow canvas;
@@ -55,7 +55,7 @@ public class WindowManager {
 // System.out.println(map.get("dog"));
  public WindowManager(){
  
-   market = new Market(1200);
+   market = new Market(1000);
 //    cat1 = new Cat("maca", 1, 1, 1, 1);
 //    cat2 = new Cat("lester", 1, 1, 1, 1);
 //    cat3 = new Cat("2022", 1, 1, 1, 1);
@@ -167,6 +167,7 @@ public class WindowManager {
  
 public static void main(String[] args){
    WindowManager windowManager = new WindowManager();
+   windowManager.setUpUncompleted();
 
 //    windowManager.addInitialCatPngs(initialCatList);
  
