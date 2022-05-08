@@ -21,7 +21,7 @@ public class Market {
 
     public Market(int money) {
         File dir = new File("res/cat");
-        deleteDirectory(dir);
+        // deleteDirectory(dir);
         this.money = money;
         // this.baseBuyPrice = Math.round(money / 12);
         // this.baseSellPrice = Math.round(money / 8);
