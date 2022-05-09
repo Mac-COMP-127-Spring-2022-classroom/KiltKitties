@@ -9,7 +9,6 @@ import java.util.Map;
  
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsText;
-import edu.macalester.graphics.Image;
 import edu.macalester.graphics.Rectangle;
 import edu.macalester.graphics.ui.Button;
 /**
@@ -37,8 +36,8 @@ public class WindowManager {
    private GraphicsText catName;
    private ArrayList<Rectangle> selectedRectangles = new ArrayList<>();
    private ArrayList<Rectangle> backRectangles = new ArrayList<>();
-   private ArrayList<Image> catList = new ArrayList<>();
-   private ArrayList<Image> selectedImages = new ArrayList<>();
+   private ArrayList<CustomImage> catList = new ArrayList<>();
+   private ArrayList<CustomImage> selectedImages = new ArrayList<>();
    private ArrayList<Button> buttonList = new ArrayList<>();
    private Rectangle currencyRectangle;
 
@@ -109,8 +108,8 @@ public class WindowManager {
  
 public static void main(String[] args){
    WindowManager windowManager = new WindowManager();
- 
-}
+ }
+
 /**
  * This method uses market to evolve a new cat based on the traits of the 2 cats selected by the user, and then adds it to the canvas in the position
  * next available, which would be to the right of the last cat displayed on the screen. It also updates currency displayed on the screen.
@@ -123,8 +122,8 @@ private void evolveCat(String fileName1, String fileName2){
     Cat newCat = market.evolve(fileCatMap.get(catFile1),fileCatMap.get(catFile2));;
     fileCatMap.put(new File(newCat.getFilepathKilt()), newCat);
     catFileMap.put(newCat, new File(newCat.getFilepathKilt()));
-    canvas.pause(1200);
-    Image catImage = new Image(newCat.getFilepathKilt());
+    // canvas.pause(3000);
+    CustomImage catImage = newCat.getImage();
     catList.add(catImage);
     int x = ((catList.size() - 1) % 5) * 220 + 120;
     int y = ((catList.size() - 1) / 5) * 220 + 120;
@@ -159,8 +158,8 @@ private void buyCat(){
        if(newCat!=null){
             fileCatMap.put(new File(newCat.getFilepathKilt()), newCat);
             catFileMap.put(newCat, new File(newCat.getFilepathKilt()));
-            canvas.pause(1000);
-            Image catImage = new Image(newCat.getFilepathKilt());
+            // canvas.pause(3_000);
+            CustomImage catImage = newCat.getImage();
             catList.add(catImage);
             int x = ((catList.size() - 1) % 5) * 220 + 120;
             int y = ((catList.size() - 1) / 5) * 220 + 120;
@@ -292,7 +291,7 @@ public double getCenterY(Button myButton){
  * @param filePath the file that corresponds to the image
  * @param catImage the image of the cat itself
  */
-private void addCatButton(double x, double y, File filePath, Image catImage){
+private void addCatButton(double x, double y, File filePath, CustomImage catImage){
    Button catButton = new Button("Select");
    buttonList.add(catButton);
    catButton.setCenter(x, y + 200*0.5);

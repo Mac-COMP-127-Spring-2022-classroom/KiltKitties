@@ -8,10 +8,13 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import edu.macalester.graphics.Image;
+
 
 public class Cat {
     // private File graphicSource = new File("src/catGraphic.png");
     private BufferedImage basicCatShape, currentCatShape, overlay;
+    private CustomImage currentCatImage;
     private String name;
     private String currentCatShapeFilepath;
     private int furRed, furGreen, furBlue;
@@ -136,6 +139,11 @@ public class Cat {
             System.out.println(e);
         }
         this.currentCatShapeFilepath = filepath;
+        this.currentCatImage = new CustomImage(currentCatShape);
+    }
+
+    public CustomImage getImage() {
+        return currentCatImage;
     }
 
     public void setFurColor(int red, int green, int blue) {
