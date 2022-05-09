@@ -14,7 +14,7 @@ import edu.macalester.graphics.ui.Button;
 /**
  * This class manages the canvas/ui as it keeps track of displaying the cats and buttons and keeping track 
  * of what is/isn't selected by the user and then how to appropriately buy, sell, or evolve new cats
- * based on that information
+ * based on that information.
  */
  
 public class WindowManager {
@@ -215,7 +215,6 @@ private void sellCat(String fileName, int price){
    File catFile = new File(fileName);
    selectedCatList.remove(catFile);
    soldCat(catFile);
-   //updates currency
    market.sellCat(fileCatMap.get(catFile));
    String s = String.valueOf(market.getMoney());
    currencyCount.setText("Available Currency: " +(s));
@@ -233,7 +232,7 @@ private void soldCat(File catFile){
     double xCoor = selectedImages.get(0).getCenter().getX();
     double yCoor = selectedImages.get(0).getCenter().getY();
     selectedImages.clear();
-    // removal at same coordinates 3 times because rectangle is on top of cat and other on bottom
+    // removal at same coordinates 3 times because one rectangle is on top of cat and other underneath
     if(canvas.getElementAt(xCoor, yCoor)!=null){
         canvas.remove(canvas.getElementAt(xCoor, yCoor));
     }
@@ -304,12 +303,7 @@ private void addCatButton(double x, double y, File filePath, CustomImage catImag
            canvas.add(catName);
            selectedCatList.add(filePath);
            selectedImages.add(catImage);
-           Rectangle selectedRectangle = new Rectangle(catImage.getCenter().getX()-200/1.8, catImage.getCenter().getY()-200/4, catImage.getWidth()*0.7, catImage.getHeight());
-           selectedRectangle.setStrokeColor(Color.GREEN);
-           selectedRectangle.setStrokeWidth(5);
-           selectedRectangle.setCenter(catImage.getCenter().getX(), catImage.getCenter().getY()+2);
-           canvas.add(selectedRectangle);
-           selectedRectangles.add(selectedRectangle);
+           addSelectedRectangle(catImage);
        }
        else if(selectedCatList.contains(filePath)){
            if(canvas.getElementAt(catImage.getCenter().getX(), catImage.getCenter().getY()-80)!=null){
@@ -331,6 +325,18 @@ private void addCatButton(double x, double y, File filePath, CustomImage catImag
    });
    canvas.add(catButton);
  
+}
+/**
+ * This creates the green rectangle that outlines the cat so that the user has a visual reminder of which cat/s are selected
+ * @param catImage The image that the rectangle borders
+ */
+private void addSelectedRectangle(CustomImage catImage){
+    Rectangle selectedRectangle = new Rectangle(catImage.getCenter().getX()-200/1.8, catImage.getCenter().getY()-200/4, catImage.getWidth()*0.7, catImage.getHeight());
+    selectedRectangle.setStrokeColor(Color.GREEN);
+    selectedRectangle.setStrokeWidth(5);
+    selectedRectangle.setCenter(catImage.getCenter().getX(), catImage.getCenter().getY()+2);
+    canvas.add(selectedRectangle);
+    selectedRectangles.add(selectedRectangle);
 }
  
 }
