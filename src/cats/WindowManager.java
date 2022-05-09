@@ -119,7 +119,7 @@ public static void main(String[] args){
 private void evolveCat(String fileName1, String fileName2){
     File catFile1 = new File(fileName1);
     File catFile2 = new File(fileName2);
-    Cat newCat = market.evolve(fileCatMap.get(catFile1),fileCatMap.get(catFile2));;
+    Cat newCat = market.evolutionCat(fileCatMap.get(catFile1),fileCatMap.get(catFile2));;
     fileCatMap.put(new File(newCat.getFilepathKilt()), newCat);
     catFileMap.put(newCat, new File(newCat.getFilepathKilt()));
     // canvas.pause(3000);
