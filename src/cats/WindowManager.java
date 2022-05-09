@@ -107,7 +107,7 @@ public class WindowManager {
  
  
 public static void main(String[] args){
-   WindowManager windowManager = new WindowManager();
+    new WindowManager();
  }
 
 /**

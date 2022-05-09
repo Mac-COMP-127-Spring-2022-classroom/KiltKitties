@@ -10,6 +10,9 @@ import java.util.Random;
 import java.util.Map.Entry;
 import java.util.function.Predicate;
 
+/**
+ * Handle user interaction with cats, including buying, selling, and evolving cats
+ */
 public class Market{
     public ArrayList<String> catNamesNotInUse = 
     new ArrayList<>(List.of("francesca", "michael", "jay", "marvin", "nevis", "tundra", "pinky", "princess",
@@ -24,21 +27,27 @@ public class Market{
         File dir2 = new File("res/cat");
         System.out.println(dir2.exists());
         this.money = money;
-        // this.baseBuyPrice = Math.round(money / 12);
-        // this.baseSellPrice = Math.round(money / 8);
-        // this.evolutionPrice = Math.round(money / 10);
         this.baseBuyPrice = 100;
-        this.baseSellPrice = 90;
+        this.baseSellPrice = 80;
         this.evolutionPrice = 100;
     }
 
+    /**
+     * Clear cats before running
+     * @param directory the cat directory
+     */
     private void deleteDirectory(File directory) {
         Arrays.stream(Objects.requireNonNull(directory.listFiles()))
                 .filter(Predicate.not(File::isDirectory))
                 .forEach(File::delete);
     }
 
-    public int priceCat(Cat cat) {
+    /**
+     * Get the price of a cat
+     * @param cat the cat concerned
+     * @return the value of it
+     */
+    private int priceCat(Cat cat) {
         int sellPrice = this.baseSellPrice;
         int multiplierFur = 100;
         int multiplierBelly = 100;
@@ -48,36 +57,36 @@ public class Market{
         Gene gene = cat.getGene();
         for (String trait: gene.getFurTraitList()) {
             multiplierFur = multiplierFur + getMultiplier(gene.getFurTraitLevel(trait), gene.getProbablity(index));
-            // System.out.println(multiplierFur);
             index = index + 1;
         }
         index = 0;
         for (String trait: gene.getBellyTraitList()) {
             multiplierBelly = multiplierBelly + getMultiplier(gene.getBellyTraitLevel(trait), gene.getProbablity(index));
-            // System.out.println(multiplierBelly);
             index = index + 1;
         }
         index = 0;
          for (String trait: gene.getEyeTraitList()) {
             multiplierEye = multiplierEye + getMultiplier(gene.getEyeTraitLevel(trait), gene.getProbablity(index));
-            // System.out.println(multiplierEye);
             index = index + 1;
         }
         index = 0;
         for (String trait: gene.getAccessoriesTraitList()) {
             multiplierAccessories = multiplierAccessories + getMultiplier(gene.getAccessoriesTraitLevel(trait), gene.getProbablity(index));
-            // System.out.println(multiplierAccessories);
             index = index + 1;
         }
         double finalMultiplier = multiplierFur * multiplierBelly * multiplierEye * multiplierAccessories / (100000000.0);
-        // System.out.println(finalMultiplier);
         sellPrice = (int) Math.round(sellPrice * finalMultiplier);
         return sellPrice;
     }
-    public int getMultiplier(int level, int probablility) {
+
+    /**
+     * Generating multipliers to value the cats
+     * @param level the level of the trait
+     * @param probablility the probability of the trait being passed on
+     * @return the multiplier
+     */
+    private int getMultiplier(int level, int probablility) {
         int multiplier = 0;
-        // System.out.println(level);
-        // System.out.println(probablility);
         if (level == 0) {
             multiplier = rand.nextInt((int) Math.round(Math.floor(probablility / 10)) + 1);
         } else if (level == 1) {
@@ -89,17 +98,20 @@ public class Market{
         } else {
             multiplier = rand.nextInt(probablility + 1);
         }
-        // System.out.println(multiplier);
         return multiplier;
     }
 
+    /**
+     * Get a random level
+     * @return random number from 0 to 3
+     */
     private int generateRandomLevel(){
         int seed = rand.nextInt(100);
-        if (seed < 45) {
+        if (seed < 55) {
             return 0;
-        } else if (seed < 70) {
+        } else if (seed < 80) {
             return 1;
-        } else if (seed < 85) {
+        } else if (seed < 90) {
             return 2;
         } else if (seed < 95) {
             return 3;
@@ -108,6 +120,10 @@ public class Market{
         }
     }
 
+    /**
+     * Pick a random name
+     * @return the new name
+     */
     private String pickRandomNames() {
         int index = rand.nextInt(catNamesNotInUse.size());
         String newName = catNamesNotInUse.get(index);
@@ -116,6 +132,10 @@ public class Market{
         return newName;
     }
 
+    /**
+     * Sell a cat, and gain the money
+     * @param cat a cat being sold
+     */
     public void sellCat(Cat cat) {
         this.money += priceCat(cat);
         catNamesInUse.remove(catNamesInUse.indexOf(cat.getName()));
@@ -123,6 +143,10 @@ public class Market{
         new File(cat.getFilepath()).delete();
     }
 
+    /**
+     * Buy a cat, dealing with money and names
+     * @return
+     */
     public Cat buyCat() {
         if (money - baseBuyPrice < 0) 
             return null;
@@ -133,6 +157,12 @@ public class Market{
         }
     }
 
+    /**
+     * Evolution of the cats
+     * @param cat1 first cat being used
+     * @param cat2 second cat being used
+     * @return a new cat from those 2
+     */
     public Cat evolve(Cat cat1, Cat cat2) {
         Gene geneGeneral = cat1.getGene();
         String furEvolvedTrait = new String();
@@ -166,12 +196,7 @@ public class Market{
                 index = index + 1;
             } 
         }
-        // System.out.println(furProbability);
-        // System.out.println(bellyProbability);
-        // System.out.println(eyeProbability);
-        // System.out.println(accessoriesProbability);
         int furGeneratedProbability = rand.nextInt(100) + 1;
-        // System.out.println(furGeneratedProbability);
         for(Entry<String, Integer> entry: furProbability.entrySet()) {
             if (furGeneratedProbability > 0) {
                 String key = entry.getKey();
@@ -185,7 +210,6 @@ public class Market{
             }
         }
         int bellyGeneratedProbability = rand.nextInt(100) + 1;
-        // System.out.println(bellyGeneratedProbability);
         for(Entry<String, Integer> entry: bellyProbability.entrySet()) {
             if (bellyGeneratedProbability > 0) {
                 String key = entry.getKey();
@@ -199,7 +223,6 @@ public class Market{
             }
         } 
         int eyeGeneratedProbability = rand.nextInt(100) + 1;
-        // System.out.println(eyeGeneratedProbability);
         for(Entry<String, Integer> entry: eyeProbability.entrySet()) {
             if (eyeGeneratedProbability > 0) {
                 String key = entry.getKey();
@@ -213,7 +236,6 @@ public class Market{
             }
         } 
         int accessoriesGeneratedProbability = rand.nextInt(100) + 1;
-        // System.out.println(accessoriesGeneratedProbability);
         for(Entry<String, Integer> entry: accessoriesProbability.entrySet()) {
             if (accessoriesGeneratedProbability > 0) {
                 String key = entry.getKey();
@@ -226,47 +248,45 @@ public class Market{
                 }
             }
         } 
-        // System.out.println(furEvolvedTrait);
-        // System.out.println(bellyEvolvedTrait);
-        // System.out.println(eyeEvolvedTrait);
-        // System.out.println(accessoriesEvolvedTrait);
         int furMaxLevel = Math.max(cat1.getGene().getFurMaxLevel(), cat2.getGene().getFurMaxLevel());
         int bellyMaxLevel = Math.max(cat1.getGene().getBellyMaxLevel(), cat2.getGene().getBellyMaxLevel());
         int eyeMaxLevel = Math.max(cat1.getGene().getEyeMaxLevel(), cat2.getGene().getEyeMaxLevel());
         int accessoriesMaxLevel = Math.max(cat1.getGene().getAccessoriesMaxLevel(), cat2.getGene().getAccessoriesMaxLevel());
-        if (geneGeneral.getFurTraitLevel(furEvolvedTrait) < 4 && rand.nextInt(100) < 10) {
-            // System.out.println("Fur Evolved");
+        if (geneGeneral.getFurTraitLevel(furEvolvedTrait) < 4 && rand.nextInt(100) < 3) {
             furEvolvedTrait = geneGeneral.getRandomFurGeneLevel(geneGeneral.getFurTraitLevel(furEvolvedTrait) + 1);
         }
-        if (geneGeneral.getBellyTraitLevel(bellyEvolvedTrait) < 4 && rand.nextInt(100) < 10) {
-            // System.out.println("Belly Evolved");
+        if (geneGeneral.getBellyTraitLevel(bellyEvolvedTrait) < 4 && rand.nextInt(100) < 3) {
             bellyEvolvedTrait = geneGeneral.getRandomBellyGeneLevel(geneGeneral.getBellyTraitLevel(bellyEvolvedTrait) + 1);
         }
-        if (geneGeneral.getEyeTraitLevel(eyeEvolvedTrait) < 4 && rand.nextInt(100) < 10) {
-            // System.out.println("Eye Evolved");
+        if (geneGeneral.getEyeTraitLevel(eyeEvolvedTrait) < 4 && rand.nextInt(100) < 3) {
             eyeEvolvedTrait = geneGeneral.getRandomEyeGeneLevel(geneGeneral.getEyeTraitLevel(eyeEvolvedTrait) + 1);
         }
-        if (geneGeneral.getAccessoriesTraitLevel(accessoriesEvolvedTrait) < 4 && rand.nextInt(100) < 10) {
-            // System.out.println("Accessories Evolved");
+        if (geneGeneral.getAccessoriesTraitLevel(accessoriesEvolvedTrait) < 4 && rand.nextInt(100) < 3) {
             if (geneGeneral.getAccessoriesTraitLevel(accessoriesEvolvedTrait) != 0) {
                 accessoriesEvolvedTrait = geneGeneral.getRandomAccessoriesGeneLevel(geneGeneral.getAccessoriesTraitLevel(accessoriesEvolvedTrait) + 1);
             } else if(geneGeneral.getAccessoriesTraitLevel(accessoriesEvolvedTrait) != 0) {
                 accessoriesEvolvedTrait = geneGeneral.getRandomAccessoriesGeneLevel(2);
             }
         }
-        // System.out.println(furEvolvedTrait);
-        // System.out.println(bellyEvolvedTrait);
-        // System.out.println(eyeEvolvedTrait);
-        // System.out.println(accessoriesEvolvedTrait);
         String name = pickRandomNames();
         return new Cat(name, furEvolvedTrait, bellyEvolvedTrait, eyeEvolvedTrait, accessoriesEvolvedTrait, furMaxLevel, bellyMaxLevel, eyeMaxLevel, accessoriesMaxLevel);
     }
 
+    /**
+     * Return the amount of money
+     * @return the money
+     */
     public int getMoney() {
         int returnMoney = money;
         return returnMoney;
     }
 
+    /**
+     * Evolving cat, dealing with money
+     * @param cat1 cat number 1
+     * @param cat2 cat number 2
+     * @return
+     */
     public Cat evolutionCat(Cat cat1, Cat cat2) {
         if (money - evolutionPrice < 0) {
             return null;
@@ -275,22 +295,5 @@ public class Market{
             Cat cat = evolve(cat1, cat2);
             return cat;
         }
-    }
-    public static void main(String[] args) {
-        // change back to 1000
-        Market market = new Market(1000);
-        // System.out.println(market.getMoney());
-        Cat cat1 = new Cat("maca", 3, 3, 3, 3);
-        Cat cat2 = new Cat("lester", 2, 2, 1, 4);
-        market.evolve(cat1, cat2);
-        // System.out.println(market.catNamesInUse);
-        // System.out.println(market.catNamesNotInUse);
-        market.sellCat(cat1);
-        // System.out.println(market.getMoney());
-        market.buyCat();
-        market.buyCat();
-        // System.out.println(market.getMoney());
-        // System.out.println(market.catNamesInUse);
-        // System.out.println(market.catNamesNotInUse);
     }
 }

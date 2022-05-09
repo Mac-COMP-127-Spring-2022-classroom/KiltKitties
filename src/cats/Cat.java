@@ -8,11 +8,10 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import edu.macalester.graphics.Image;
-
-
+/**
+ * A cat that can be bought, sold, as well as used to evolve to create new cats
+ */
 public class Cat {
-    // private File graphicSource = new File("src/catGraphic.png");
     private BufferedImage basicCatShape, currentCatShape, overlay;
     private CustomImage currentCatImage;
     private String name;
@@ -39,18 +38,6 @@ public class Cat {
         setBellyColorName(gene.getBellyTraitList().get(0));
         setEyeColorName(gene.getEyeTraitList().get(0));
         setAccesoriesName(gene.getAccessoriesTraitList().get(0));
-
-        String shownFur = gene.getFurTraitList().get(0);
-        String shownBelly = gene.getBellyTraitList().get(0);
-        String shownEye = gene.getEyeTraitList().get(0);
-        String shownAccessories = gene.getAccessoriesTraitList().get(0);
-
-
-
-        // shownTraits.add(shownAccessories);
-        // shownTraits.add(shownBelly);
-        // shownTraits.add(shownEye);
-        // shownTraits.add(shownFur);
     }
 
     public Cat(String name, String furTrait, String bellyTrait, String eyeTrait, String accessoriesTrait, int furMaxLevel, int bellyMaxLevel, int eyeMaxLevel, int accessoriesMaxLevel) {
@@ -72,13 +59,10 @@ public class Cat {
         setBellyColorName(shownBelly);
         setEyeColorName(shownEye);
         setAccesoriesName(shownAccessories);
-
-        // shownTraits.add(shownAccessories);
-        // shownTraits.add(shownBelly);
-        // shownTraits.add(shownEye);
-        // shownTraits.add(shownFur);
     }
-
+    /**
+     * Update cats colors and patterns
+     */
     private void updatePicture() {
         int alpha = 255;
         int fur = basicCatShape.getRGB(0, 0);
@@ -107,9 +91,6 @@ public class Cat {
                 for (int x = 0; x < overlay.getWidth(); x++) {
                     int p = overlay.getRGB(x, y);
                     int a = (p>>24)&0xff;
-                    // int red = (pixelRGB & 0x00ff0000) >> 16;
-                    // int green = (pixelRGB & 0x00ff0000) >> 8;
-                    // int blue = (pixelRGB & 0x00ff0000);
                     if (a != 0) {
                         basicCatShape.setRGB(x, y, p);
                     }
@@ -125,6 +106,9 @@ public class Cat {
         exportImage();
     }
 
+    /**
+     * Export images for each cats
+     */
     private void exportImage() {
         String filepath = "res/cat/"+ name + ".png";
         File f = new File(filepath);
@@ -142,32 +126,58 @@ public class Cat {
         this.currentCatImage = new CustomImage(currentCatShape);
     }
 
+    /**
+     * Return a image of the cat
+     * @return current image of the cat
+     */
     public CustomImage getImage() {
         return currentCatImage;
     }
 
-    public void setFurColor(int red, int green, int blue) {
+    /**
+     * Setting cat fur with RGB
+     * @param red
+     * @param green
+     * @param blue
+     */
+    private void setFurColor(int red, int green, int blue) {
         this.furRed = red;
         this.furBlue = blue;
         this.furGreen = green;
         updatePicture();
     }
 
-    public void setBellyColor(int red, int green, int blue) {
+    /**
+     * Setting belly color with RGB
+     * @param red
+     * @param green
+     * @param blue
+     */
+    private void setBellyColor(int red, int green, int blue) {
         this.bellyRed = red;
         this.bellyBlue = blue;
         this.bellyGreen = green;
         updatePicture();
     }
 
-    public void setEyeColor(int red, int green, int blue) {
+    /**
+     * Settingn eye color with RGB
+     * @param red
+     * @param green
+     * @param blue
+     */
+    private void setEyeColor(int red, int green, int blue) {
         this.eyeRed = red;
         this.eyeBlue = blue;
         this.eyeGreen = green;
         updatePicture();
     }
 
-    public void setFurColorName(String name) {
+    /**
+     * Setting fur color with a color name
+     * @param name name of the color
+     */
+    private void setFurColorName(String name) {
         this.furTrait = name;
         int red = gene.getFurColor(name).get(0);
         int green = gene.getFurColor(name).get(1);
@@ -176,7 +186,11 @@ public class Cat {
         setFurColor(red, green, blue);
     }
 
-    public void setBellyColorName(String name) {
+    /**
+     * Setting belly color with a color name
+     * @param name name of the color
+     */
+    private void setBellyColorName(String name) {
         this.bellyTrait = name;
         int red = gene.getBellyColor(name).get(0);
         int green = gene.getBellyColor(name).get(1);
@@ -185,7 +199,11 @@ public class Cat {
         setBellyColor(red, green, blue);
     }
 
-    public void setEyeColorName(String name) {
+    /**
+     * Setting eye color with a color name
+     * @param name name of the color
+     */
+    private void setEyeColorName(String name) {
         this.eyeTrait = name;
         int red = gene.getEyeColor(name).get(0);
         int green = gene.getEyeColor(name).get(1);
@@ -194,7 +212,11 @@ public class Cat {
         setEyeColor(red, green, blue);
     }
 
-    public void setAccesoriesName(String name) {
+    /**
+     * Setting accesories with a name
+     * @param name name of the accessories
+     */
+    private void setAccesoriesName(String name) {
         this.accessoriesTrait = name;
         if (this.accessoriesTrait != "None") {
             try {
@@ -206,41 +228,53 @@ public class Cat {
         updatePicture();
     }
 
-    public void setRandomGene() {
-        this.setFurColorName(gene.getRandomFurGene());
-        this.setBellyColorName(gene.getRandomBellyGene());
-        this.setEyeColorName(gene.getRandomEyeGene());
-        this.setAccesoriesName(gene.getRandomAccessoriesGene());
-    }
-
+    /**
+     * Get filepath of the image
+     * @return filepath
+     */
     public String getFilepath() {
         return this.currentCatShapeFilepath;
     }
 
+    /**
+     * Filepath of the cat with kilt graphics
+     * @return filepath for kilt graphics
+     */
     public String getFilepathKilt() {
         return this.currentCatShapeFilepath.substring(4);
     }
 
+    /**
+     * Get the gene of the cat
+     * @return the gene of the cat
+     */
     public Gene getGene() {
-        return this.gene;
+        Gene catGene = this.gene;
+        return catGene;
     }
 
+    /**
+     * Get the name of the cat
+     * @return get the name of the cat
+     */
     public String getName() {
-        return this.name;
+        String catName = this.name;
+        return catName;
     }
 
+    /**
+     * Return the rgb value of fur
+     */
     public ArrayList<Integer> getFurColor() {
         return new ArrayList<>(List.of(this.furRed, this.furGreen, this.furBlue));
     }
 
+    /** 
+     * Return the rgb value of the belly
+     */
     public ArrayList<Integer> getBellyColor() {
         return new ArrayList<>(List.of(this.bellyRed, this.bellyGreen, this.bellyBlue));
     }
-
-    // public List<String> getShownTraits() {
-    //     return shownTraits;
-    // }
-    
 
     public static void main(String[] args) throws Exception {
         Cat nevis = new Cat("nevis", 0, 0, 0, 2);
@@ -248,6 +282,4 @@ public class Cat {
         System.out.println(nevis.getFilepath());
         System.out.println(matthew.getFilepath());  
     }
-
-
 }

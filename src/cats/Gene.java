@@ -1,12 +1,13 @@
 package cats;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
+/**
+ * Containing information about traits, hidden traits, genes, and color codes
+ */
 public class Gene {
     private LinkedHashMap<String, List<Integer>> furGene = new LinkedHashMap<String, List<Integer>>();
     private LinkedHashMap<String, List<Integer>> bellyGene = new LinkedHashMap<String, List<Integer>>();
@@ -339,28 +340,57 @@ public class Gene {
         System.out.println(accessoriesTraits);
     }
 
+    /**
+     * Get the rgb code for the fur color
+     * @param name color name
+     * @return rgb list
+     */
     public List<Integer> getFurColor(String name) {
         return furGene.get(name);
     }
 
+    /**
+     * Get the rgb code for the belly color
+     * @param name color name
+     * @return rgb list
+     */
     public List<Integer> getBellyColor(String name) {
         return bellyGene.get(name);
     }
 
+    /**
+     * Get the rgb code for the eye color
+     * @param name color name
+     * @return rgb list
+     */
     public List<Integer> getEyeColor(String name) {
         return eyeGene.get(name);
     }
 
+    /**
+     * Get the accessories filepath
+     * @param name accessories name
+     * @return the accessories filepath
+     */
     public String getAccessories(String name) {
         return accessoriesGene.get(name);
     }
 
+    /**
+     * Get a random fur trait
+     * @return random fur trait
+     */
     public String getRandomFurGene() {
         Random rand = new Random();
         ArrayList<String> keys = new ArrayList<>(furGene.keySet()); 
         return keys.get(rand.nextInt(keys.size()));
     }
 
+    /**
+     * Get a random fur trait of the specified level
+     * @param level level of the trait
+     * @return the fur trait
+     */
     public String getRandomFurGeneLevel(int level) {
         Random rand = new Random();
         ArrayList<String> keys = new ArrayList<>(furGene.keySet()); 
@@ -379,13 +409,21 @@ public class Gene {
         return returnString;
     }
 
-
+    /**
+     * Get a random belly trait
+     * @return random belly trait
+     */
     public String getRandomBellyGene() {
         Random rand = new Random();
         ArrayList<String> keys = new ArrayList<>(bellyGene.keySet()); 
         return keys.get(rand.nextInt(keys.size()));
     }
 
+    /**
+    * Get a random belly trait of the specified level
+    * @param level level of the trait
+    * @return the belly trait
+    */
     public String getRandomBellyGeneLevel(int level) {
         Random rand = new Random();
         ArrayList<String> keys = new ArrayList<>(bellyGene.keySet()); 
@@ -404,12 +442,21 @@ public class Gene {
         return returnString;
     }
 
+    /**
+     * Get a random eye trait
+     * @return the eye trait
+     */
     public String getRandomEyeGene() {
         Random rand = new Random();
         ArrayList<String> keys = new ArrayList<>(eyeGene.keySet()); 
         return keys.get(rand.nextInt(keys.size()));
     }
 
+    /**
+     * Get random eye trait of the specified level
+     * @param level the level of the trait
+     * @return the eye trait
+     */
     public String getRandomEyeGeneLevel(int level) {
         Random rand = new Random();
         ArrayList<String> keys = new ArrayList<>(eyeGene.keySet()); 
@@ -428,12 +475,21 @@ public class Gene {
         return returnString;
     }
 
+    /**
+     * Get random accessories trait of the specified level
+     * @return a random accessories trait
+     */
     public String getRandomAccessoriesGene() {
         Random rand = new Random();
         ArrayList<String> keys = new ArrayList<>(accessoriesGene.keySet()); 
         return keys.get(rand.nextInt(keys.size()));
     }
 
+    /**
+     * Get random accessories trait of the specified level
+     * @param level level of the trait
+     * @return the random trait
+     */
     public String getRandomAccessoriesGeneLevel(int level) {
         Random rand = new Random();
         ArrayList<String> keys = new ArrayList<>(accessoriesGene.keySet()); 
@@ -450,30 +506,51 @@ public class Gene {
         return returnString;
     }
 
+    /**
+     * Get a list of all the fur traits
+     * @return list of fur traits ordered by probability
+     */
     public ArrayList<String> getFurTraitList() {
         ArrayList<String> keys = new ArrayList<>(furTraits.values());
         System.out.println(keys);
         return keys;
     }
 
+    /**
+     * Get a list of belly trait
+     * @return list of belly traits by probability
+     */
     public ArrayList<String> getBellyTraitList() {
         ArrayList<String> keys = new ArrayList<>(bellyTraits.values());
         System.out.println(keys);
         return keys;
     }
 
+    /**
+     * Get a list of eye traits
+     * @return list of eye traits by probability
+     */
     public ArrayList<String> getEyeTraitList() {
         ArrayList<String> keys = new ArrayList<>(eyeTraits.values());
         System.out.println(keys);
         return keys;
     }
 
+    /**
+     * Get a list of accessories trait
+     * @return accessories traits with probability
+     */
     public ArrayList<String> getAccessoriesTraitList() {
         ArrayList<String> keys = new ArrayList<>(accessoriesTraits.values());
         System.out.println(keys);
         return keys;
     }
 
+    /**
+     * Get level of a trait
+     * @param string fur trait
+     * @return level of the trait
+     */
     public int getFurTraitLevel(String string) {
         ArrayList<String> keys = new ArrayList<>(furGene.keySet());
         int index = keys.indexOf(string);
@@ -490,6 +567,11 @@ public class Gene {
         }
     }
 
+    /**
+     * Get level of a trait
+     * @param string fur trait
+     * @return level of the trait
+     */
     public int getBellyTraitLevel(String string) {
         ArrayList<String> keys = new ArrayList<>(bellyGene.keySet());
         int index = keys.indexOf(string);
@@ -506,6 +588,11 @@ public class Gene {
         }
     }
 
+    /**
+     * Get level of a trait
+     * @param string fur trait
+     * @return level of the trait
+     */
     public int getEyeTraitLevel(String string) {
         ArrayList<String> keys = new ArrayList<>(eyeGene.keySet());
         int index = keys.indexOf(string);
@@ -522,6 +609,11 @@ public class Gene {
         }
     }
 
+    /**
+     * Get level of a trait
+     * @param string fur trait
+     * @return level of the trait
+     */
     public int getAccessoriesTraitLevel(String string) {
         ArrayList<String> keys = new ArrayList<>(accessoriesGene.keySet());
         int index = keys.indexOf(string);
@@ -536,6 +628,11 @@ public class Gene {
         }
     }
 
+    /**
+     * Get the probability of a trait
+     * @param index position of the trait
+     * @return probability
+     */
     public int getProbablity(int index) {
         if (index == 0) {
             return 35;
@@ -550,22 +647,34 @@ public class Gene {
         }
     }
 
-    public void setFurTrait(String trait) {
-        furTraits.put(35, trait);
-    }
-
+    /**
+     * Get the fur max level
+     * @return max level of fur
+     */
     public int getFurMaxLevel(){
         return furMaxLevel;
     }
 
+    /**
+     * Get the max level of the belly
+     * @return max level of the belly
+     */
     public int getBellyMaxLevel() {
         return bellyMaxLevel;
     }
 
+    /**
+     * Get the max level of the eye
+     * @return max level of eye
+     */
     public int getEyeMaxLevel() {
         return eyeMaxLevel;
     }
 
+    /**
+     * Return the max level of the accessories
+     * @return max level of accessories
+     */
     public int getAccessoriesMaxLevel() {
         return accessoriesMaxLevel;
     }
