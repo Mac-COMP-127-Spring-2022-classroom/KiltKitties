@@ -21,6 +21,7 @@ public class Cat {
     private String furTrait, bellyTrait, eyeTrait, accessoriesTrait;
     private List<String> shownTraits;
 
+
     public Cat(String name, int furMaxLevel, int bellyMaxLevel, int eyeMaxLevel, int accessoriesMaxLevel) {
         try {
             this.basicCatShape = ImageIO.read(new File("res/catGraphic.png"));
@@ -31,20 +32,22 @@ public class Cat {
         this.name = name;
         this.gene = new Gene(furMaxLevel, bellyMaxLevel, eyeMaxLevel, accessoriesMaxLevel);
 
+        setFurColorName(gene.getFurTraitList().get(0));
+        setBellyColorName(gene.getBellyTraitList().get(0));
+        setEyeColorName(gene.getEyeTraitList().get(0));
+        setAccesoriesName(gene.getAccessoriesTraitList().get(0));
+
         String shownFur = gene.getFurTraitList().get(0);
         String shownBelly = gene.getBellyTraitList().get(0);
         String shownEye = gene.getEyeTraitList().get(0);
         String shownAccessories = gene.getAccessoriesTraitList().get(0);
 
-        setFurColorName(shownFur);
-        setBellyColorName(shownBelly);
-        setEyeColorName(shownEye);
-        setAccesoriesName(shownAccessories);
 
-        shownTraits.add(shownAccessories);
-        shownTraits.add(shownBelly);
-        shownTraits.add(shownEye);
-        shownTraits.add(shownFur);
+
+        // shownTraits.add(shownAccessories);
+        // shownTraits.add(shownBelly);
+        // shownTraits.add(shownEye);
+        // shownTraits.add(shownFur);
     }
 
     public Cat(String name, String furTrait, String bellyTrait, String eyeTrait, String accessoriesTrait, int furMaxLevel, int bellyMaxLevel, int eyeMaxLevel, int accessoriesMaxLevel) {
@@ -67,10 +70,10 @@ public class Cat {
         setEyeColorName(shownEye);
         setAccesoriesName(shownAccessories);
 
-        shownTraits.add(shownAccessories);
-        shownTraits.add(shownBelly);
-        shownTraits.add(shownEye);
-        shownTraits.add(shownFur);
+        // shownTraits.add(shownAccessories);
+        // shownTraits.add(shownBelly);
+        // shownTraits.add(shownEye);
+        // shownTraits.add(shownFur);
     }
 
     private void updatePicture() {
@@ -222,9 +225,13 @@ public class Cat {
         return new ArrayList<>(List.of(this.furRed, this.furGreen, this.furBlue));
     }
 
-    public List<String> getShownTraits() {
-        return shownTraits;
+    public ArrayList<Integer> getBellyColor() {
+        return new ArrayList<>(List.of(this.bellyRed, this.bellyGreen, this.bellyBlue));
     }
+
+    // public List<String> getShownTraits() {
+    //     return shownTraits;
+    // }
     
 
     public static void main(String[] args) throws Exception {

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Map.Entry;
@@ -29,7 +28,7 @@ public class Market{
         // this.baseSellPrice = Math.round(money / 8);
         // this.evolutionPrice = Math.round(money / 10);
         this.baseBuyPrice = 100;
-        this.baseSellPrice = 100;
+        this.baseSellPrice = 90;
         this.evolutionPrice = 100;
     }
 
@@ -264,7 +263,8 @@ public class Market{
     }
 
     public int getMoney() {
-        return money;
+        int returnMoney = money;
+        return returnMoney;
     }
 
     public Cat evolutionCat(Cat cat1, Cat cat2) {
