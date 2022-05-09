@@ -43,14 +43,17 @@ public class WindowManager {
    private GraphicsText saleError1;
    private GraphicsText saleError2;
    private GraphicsText evolveError;
+   private GraphicsText catsError;
    private GraphicsText currencyCount;
    private GraphicsText catName;
    private ArrayList<Rectangle> selectedRectangles = new ArrayList<>();
+   private ArrayList<Rectangle> backRectangles = new ArrayList<>();
    private double horizontalPadding;
    private double verticalPadding;
    private ArrayList<Image> catList = new ArrayList<>();
    private ArrayList<Image> selectedImages = new ArrayList<>();
    private ArrayList<Button> buttonList = new ArrayList<>();
+   private Rectangle currencyRectangle;
 // map.put("dog", "type of animal");
 // System.out.println(map.get("dog"));
  public WindowManager(){
@@ -62,55 +65,70 @@ public class WindowManager {
 //    cat2.setFurColor(55, 110, 22);
 //    cat3.setBellyColor(12, 80, 96);
    canvas = new CanvasWindow("Cats!", CANVAS_WIDTH, CANVAS_HEIGHT);
+   canvas.setBackground(Color.PINK);
 //    horizontalPadding = catImage1.getImageWidth()+20;
 //    verticalPadding = catImage1.getImageHeight()+20;
    purchaseError1 = new GraphicsText("Insuffcient funds :(");
    saleError1 = new GraphicsText("Cat must be selected to make sale");
    saleError2 = new GraphicsText("Only one cat can be sold at a time");
    evolveError = new GraphicsText("Two cats must be selected");
+   catsError = new GraphicsText("Cannot have more than 10 cats");
    catName = new GraphicsText("Kitty");
-   currencyCount = new GraphicsText("Available Currency: 1000");
-   currencyCount.setPosition(50, 700);
+   currencyCount = new GraphicsText("Available Currency: 1200");
+   currencyCount.setCenter(CANVAS_WIDTH*0.5, CANVAS_HEIGHT*0.9);
    canvas.add(currencyCount);
+   currencyRectangle = new Rectangle(currencyCount.getCenter().getX(), currencyCount.getCenter().getY(), CANVAS_WIDTH*0.2, CANVAS_HEIGHT*0.1);
+   currencyRectangle.setStrokeColor(Color.YELLOW);
+   currencyRectangle.setStrokeWidth(5);
+   currencyRectangle.setCenter(currencyCount.getCenter().getX(), currencyCount.getCenter().getY());
+   canvas.add(currencyRectangle);
    buyButton = new Button("Buy New Cat");
-   buyButton.setPosition(CANVAS_WIDTH*0.4 - buyButton.getWidth(), CANVAS_HEIGHT*0.7);
+   buyButton.setCenter(CANVAS_WIDTH*0.4 - buyButton.getWidth(), CANVAS_HEIGHT*0.8);
    buyButton.onClick(() ->{ 
+    if(catList.size()>=10){
+        catsError.setPosition(getCenterX(evolveButton)-catsError.getWidth()*0.5, getCenterY(buyButton));
+        canvas.add(catsError);
+   }
+   else{
        buyCat();
-
+   }
    });
    sellButton = new Button("Sell");
-   sellButton.setPosition(CANVAS_WIDTH*0.6, CANVAS_HEIGHT*0.7);
+   sellButton.setCenter(CANVAS_WIDTH*0.7, CANVAS_HEIGHT*0.8);
    sellButton.onClick(() ->{
        removeSalesErrors();
-
        if (selectedCatList.isEmpty()){
-     
-        saleError1.setPosition(getCenterX(sellButton)-saleError1.getWidth()*0.5, getCenterY(sellButton)+25);
+       saleError1.setPosition(getCenterX(sellButton)-saleError1.getWidth()*0.5, getCenterY(sellButton)+25);
  
-        canvas.add(saleError1);
-        }
-        else if(selectedCatList.size()>=2){
-            saleError2.setPosition(getCenterX(sellButton)-saleError2.getWidth()*0.5, getCenterY(sellButton)+25);
-            canvas.add(saleError2);
-        }
+       canvas.add(saleError1);
+       }
+       else if(selectedCatList.size()>=2){
+           saleError2.setPosition(getCenterX(sellButton)-saleError2.getWidth()*0.5, getCenterY(sellButton)+25);
+           canvas.add(saleError2);
+       }
        else{
         System.out.println(selectedCatList.get(0));    
         sellCat(selectedCatList.get(0).toString(), 100);
        }
    });
    evolveButton = new Button("Evolve");
-   evolveButton.setPosition(CANVAS_WIDTH*0.5, CANVAS_HEIGHT*0.7);
+   evolveButton.setCenter(CANVAS_WIDTH*0.5, CANVAS_HEIGHT*0.7);
    evolveButton.onClick(() ->{
-
-       if (selectedCatList.size()!=2){
-     
-        evolveError.setPosition(getCenterX(evolveButton)-evolveError.getWidth()*0.5, getCenterY(evolveButton)+25);
- 
-        canvas.add(evolveError);
-    }
-       else{
-       evolveCat(selectedCatList.get(0).toString(), selectedCatList.get(1).toString());
+       if(catList.size()>=10){
+            catsError.setPosition(getCenterX(evolveButton)-catsError.getWidth()*0.5, getCenterY(buyButton));
+            canvas.add(catsError);
        }
+       else{
+            if (selectedCatList.size()!=2){
+            
+                evolveError.setPosition(getCenterX(evolveButton)-evolveError.getWidth()*0.5, getCenterY(evolveButton)+25);
+        
+                canvas.add(evolveError);
+            }
+            else{
+            evolveCat(selectedCatList.get(0).toString(), selectedCatList.get(1).toString());
+            }
+        }
    });
    canvas.add(buyButton);
    canvas.add(sellButton);
@@ -193,6 +211,11 @@ public void evolveCat(String fileName1, String fileName2){
     int x = ((catList.size() - 1) % 5) * 220 + 120;
     int y = ((catList.size() - 1) / 5) * 220 + 120;
     catImage.setCenter(x, y);
+    Rectangle backRectangle = new Rectangle(x, y, catImage.getWidth()*0.7, catImage.getHeight());
+    backRectangles.add(backRectangle);
+    backRectangle.setCenter(x, y);
+    backRectangle.setFillColor(Color.BLUE);
+    canvas.add(backRectangle);
     canvas.add(catImage);
 
 
@@ -200,6 +223,7 @@ public void evolveCat(String fileName1, String fileName2){
     currencyCount.setText("Available Currency: " +(s));
 
     addCatButton(x, y, catFileMap.get(newCat), catImage);
+
     canvas.draw();
 }
 
@@ -229,6 +253,11 @@ public void buyCat(){
             int x = ((catList.size() - 1) % 5) * 220 + 120;
             int y = ((catList.size() - 1) / 5) * 220 + 120;
             catImage.setCenter(x, y);
+            Rectangle backRectangle = new Rectangle(x, y, catImage.getWidth()*0.7, catImage.getHeight());
+            backRectangles.add(backRectangle);
+            backRectangle.setCenter(x, y);
+            backRectangle.setFillColor(Color.BLUE);
+            canvas.add(backRectangle);
             canvas.add(catImage);
 
 
@@ -287,11 +316,14 @@ public void soldCat(File catFile){
         System.out.println(canvas.getElementAt(xCoor, yCoor));
         canvas.remove(canvas.getElementAt(xCoor, yCoor));
     }
-    catList.remove(canvas.getElementAt(xCoor, yCoor)); // Remove cat from list
+    catList.remove(canvas.getElementAt(xCoor, yCoor)); 
     if(canvas.getElementAt(xCoor, yCoor)!=null){
         canvas.remove(canvas.getElementAt(xCoor, yCoor));
     }
-    // removes select button
+    backRectangles.remove(canvas.getElementAt(xCoor, yCoor)); 
+    if(canvas.getElementAt(xCoor, yCoor)!=null){
+        canvas.remove(canvas.getElementAt(xCoor, yCoor));
+    }
     buttonList.remove(canvas.getElementAt(xCoor, yCoor + 200*0.5)); // Remove button from buttonList
     canvas.remove(canvas.getElementAt(xCoor, yCoor + 200*0.5));
     System.out.println(catList);
@@ -307,6 +339,7 @@ public void soldCat(File catFile){
         System.out.println(catList.get(cat));
         int x = (cat % 5) * 220 + 120;
         int y = (cat / 5) * 220 + 120;
+        backRectangles.get(cat).setCenter(x,y);
         catList.get(cat).setCenter(x, y);
         // catImage.setCenter(x, y);
     }
@@ -400,7 +433,7 @@ private void addCatButton(double x, double y, File filePath, Image catImage){
            canvas.add(catName);
            selectedCatList.add(filePath);
            selectedImages.add(catImage);
-           Rectangle selectedRectangle = new Rectangle(catImage.getCenter().getX()-200/1.8, catImage.getCenter().getY()-200/4, 150*1.1, 200*1.1);
+           Rectangle selectedRectangle = new Rectangle(catImage.getCenter().getX()-200/1.8, catImage.getCenter().getY()-200/4, catImage.getWidth()*0.7, catImage.getHeight());
            selectedRectangle.setStrokeColor(Color.GREEN);
            selectedRectangle.setStrokeWidth(5);
            selectedRectangle.setCenter(catImage.getCenter().getX(), catImage.getCenter().getY()+2);
