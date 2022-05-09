@@ -1,7 +1,10 @@
+/*
+Unused class that we may come back to in the future.
+*/
+
 package cats;
 
 import java.util.List;
-// import cats.Cat;
 
 public class Achievement {
     private static List<String> uncompleted;
