@@ -199,6 +199,10 @@ public class Cat {
         return new ArrayList<>(List.of(this.furRed, this.furGreen, this.furBlue));
     }
 
+    public ArrayList<Integer> getBellyColor() {
+        return new ArrayList<>(List.of(this.bellyRed, this.bellyGreen, this.bellyBlue));
+    }
+
     public static void main(String[] args) throws Exception {
         Cat nevis = new Cat("nevis", 0, 0, 0, 2);
         Cat matthew = new Cat("matthew", "Onyx", "Daffodil", "Gold", "Bow", 0, 0,0, 2);
