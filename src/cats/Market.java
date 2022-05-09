@@ -11,7 +11,7 @@ import java.util.Random;
 import java.util.Map.Entry;
 import java.util.function.Predicate;
 
-public class Market {
+public class Market{
     public ArrayList<String> catNamesNotInUse = 
     new ArrayList<>(List.of("francesca", "michael", "jay", "marvin", "nevis", "tundra", "pinky", "princess",
      "prince", "benjamin", "lechat", "bubbles", "catniss", "tom", "cathereine", "olivier", "henry", "olivia"));

@@ -3,8 +3,9 @@ package cats;
 import java.util.List;
 
 public class Achievement {
-    private List<String> uncompleted, completed;
-    private List<String> accessoryTraits = List.of(
+    private static List<String> uncompleted;
+    private static List<String> completed;
+    private static List<String> accessoryTraits = List.of(
         "None",
         "Bow",
         "BowTie",
@@ -16,7 +17,7 @@ public class Achievement {
         "Spots",
         "Stripes"
     );
-    private List<String> bellyTraits = List.of(
+    private static List<String> bellyTraits = List.of(
         "Belleblue",
         "Sandalwood",
         "Peach",
@@ -49,7 +50,7 @@ public class Achievement {
         "FallSpice",
         "DreamBoat"
     );
-    private List<String> eyeTraits = List.of(
+    private static List<String> eyeTraits = List.of(
         "ThunderGrey",
         "Gold",
         "Topaz",
@@ -82,7 +83,7 @@ public class Achievement {
         "Dioscuri",
         "Kaleidoscope"
     );
-    private List<String> furTraits = List.of(
+    private static List<String> furTraits = List.of(
         "ShadowGrey",
         "Salmon",
         "Meowgarine",
@@ -115,45 +116,61 @@ public class Achievement {
         "Shamrock",
         "Firstblush"
     );
+    private static List<String> money = List.of(
+        "1100",
+        "1500",
+        "2000",
+        "5000",
+        "10000"
+    );
 
     public List<String> getCompleted() {
         return completed;
     }
 
     public void setCompleted(List<String> completed) {
-        this.completed = completed;
+        Achievement.completed = completed;
     }
 
-    public List<String> getUncompleted() {
+    public static List<String> getUncompleted() {
         return uncompleted;
     }
 
-    public void setUncompleted(List<String> uncompleted) {
-        this.uncompleted = uncompleted;
+    public static void setUncompleted(List<String> uncompleted) {
+        Achievement.uncompleted = uncompleted;
     }
 
-    public List<String> getAccessoryTraits() {
+    public static List<String> getAccessoryTraits() {
         return accessoryTraits;
     }
 
-    public List<String> getBellyTraits() {
+    public static List<String> getBellyTraits() {
         return bellyTraits;
     }
 
-    public List<String> getEyeTraits() {
+    public static List<String> getEyeTraits() {
         return eyeTraits;
     }
 
-    public List<String> getFurTraits() {
+    public static List<String> getFurTraits() {
         return furTraits;
     }
 
-    public void setUpUncompleted(){
+    public static List<String> getMoneyAcheivements() {
+        return money;
+    }
+
+    public static void setUpUncompleted(){
+        /*
+        Creates a list of all incomplete achievements.
+        */
+
         List<String> uncompleted = getUncompleted();
         uncompleted.addAll(getAccessoryTraits());
         uncompleted.addAll(getBellyTraits());
         uncompleted.addAll(getEyeTraits());
         uncompleted.addAll(getFurTraits());
+        uncompleted.addAll(getMoneyAcheivements());
         setUncompleted(uncompleted);
     }
 

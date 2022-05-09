@@ -1,4 +1,6 @@
 package cats;
+
+import cats.Achievement;
  
 import java.awt.Color;
 import java.io.File;
@@ -16,7 +18,7 @@ import edu.macalester.graphics.Rectangle;
 import edu.macalester.graphics.ui.Button;
  
  
-public class WindowManager extends Achievement{
+public class WindowManager{
    public static final int CANVAS_WIDTH = 1200;
    public static final int CANVAS_HEIGHT = 800;
    public CanvasWindow canvas;
@@ -115,6 +117,7 @@ public class WindowManager extends Achievement{
    canvas.add(buyButton);
    canvas.add(sellButton);
    canvas.add(evolveButton);
+   Achievement.setUpUncompleted();
 //    catFile1 = new File(cat1.getFilepathKilt());
 //    initialCatList.add(catFile1);
 //    fileCatMap.put(catFile1, cat1);
@@ -163,12 +166,10 @@ public class WindowManager extends Achievement{
   
 
     }
- 
- 
+
+
 public static void main(String[] args){
    WindowManager windowManager = new WindowManager();
-   windowManager.setUpUncompleted();
-
 //    windowManager.addInitialCatPngs(initialCatList);
  
 }
