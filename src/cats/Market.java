@@ -11,17 +11,19 @@ import java.util.Random;
 import java.util.Map.Entry;
 import java.util.function.Predicate;
 
-public class Market {
+public class Market{
     public ArrayList<String> catNamesNotInUse = 
     new ArrayList<>(List.of("francesca", "michael", "jay", "marvin", "nevis", "tundra", "pinky", "princess",
      "prince", "benjamin", "lechat", "bubbles", "catniss", "tom", "cathereine", "olivier", "henry", "olivia"));
-    private ArrayList<String> catNamesInUse = new ArrayList<>(List.of()); 
+    private ArrayList<String> catNamesInUse = new ArrayList<>(); 
     private int money, baseBuyPrice, baseSellPrice, evolutionPrice;
     private Random rand = new Random();
 
     public Market(int money) {
         File dir = new File("res/cat");
         deleteDirectory(dir);
+        File dir2 = new File("res/cat");
+        System.out.println(dir2.exists());
         this.money = money;
         // this.baseBuyPrice = Math.round(money / 12);
         // this.baseSellPrice = Math.round(money / 8);
@@ -78,7 +80,7 @@ public class Market {
         // System.out.println(level);
         // System.out.println(probablility);
         if (level == 0) {
-            multiplier = rand.nextInt( (int) Math.round(Math.floor(probablility / 10)) + 1);
+            multiplier = rand.nextInt((int) Math.round(Math.floor(probablility / 10)) + 1);
         } else if (level == 1) {
             multiplier = rand.nextInt((int) Math.round(Math.floor(probablility / 5)) + 1);
         } else if (level == 2) {
