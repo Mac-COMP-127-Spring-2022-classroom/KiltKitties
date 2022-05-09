@@ -99,7 +99,7 @@ public class WindowManager extends Achievement{
        }
    });
    evolveButton = new Button("Evolve");
-   evolveButton.setPosition(CANVAS_WIDTH*0.5, CANVAS_HEIGHT*0.7);
+   evolveButton.setPosition(CANVAS_WIDTH*0.5 - evolveButton.getWidth() / 2, CANVAS_HEIGHT * 0.7);
    evolveButton.onClick(() ->{
 
        if (selectedCatList.size()!=2){
@@ -397,7 +397,7 @@ private void addCatButton(double x, double y, File filePath, Image catImage){
        if (!selectedCatList.contains(filePath) && selectedCatList.size()<2) {
            String p = fileCatMap.get(filePath).getName();
            catName.setText(p);
-           catName.setCenter(CANVAS_WIDTH*0.5, CANVAS_HEIGHT*0.75);
+           catName.setCenter(CANVAS_WIDTH*0.5, CANVAS_HEIGHT*0.775);
            canvas.add(catName);
            selectedCatList.add(filePath);
            selectedImages.add(catImage);
