@@ -1,6 +1,7 @@
 package cats;
 
 import java.util.List;
+import cats.Cat;
 
 public class Achievement {
     private static List<String> uncompleted;
@@ -124,7 +125,7 @@ public class Achievement {
         "10000"
     );
 
-    public List<String> getCompleted() {
+    public static List<String> getCompleted() {
         return completed;
     }
 
@@ -174,4 +175,12 @@ public class Achievement {
         setUncompleted(uncompleted);
     }
 
+    public static void updateTraitsAchievementLists(Cat newCat){
+        for (String achievement : getUncompleted()) {
+            if(newCat.getShownTraits().contains(achievement)){
+                getUncompleted().remove(achievement);
+                getCompleted().add(achievement);
+            }
+        }
+    }
 }
