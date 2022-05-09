@@ -149,7 +149,7 @@ public class Achievement {
     }
 
     public void setUpUncompleted(){
-        uncompleted = getUncompleted();
+        List<String> uncompleted = getUncompleted();
         uncompleted.addAll(getAccessoryTraits());
         uncompleted.addAll(getBellyTraits());
         uncompleted.addAll(getEyeTraits());

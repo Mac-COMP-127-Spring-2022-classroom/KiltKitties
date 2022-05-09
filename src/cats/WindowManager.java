@@ -64,7 +64,7 @@ public class WindowManager extends Achievement{
    canvas = new CanvasWindow("Cats!", CANVAS_WIDTH, CANVAS_HEIGHT);
 //    horizontalPadding = catImage1.getImageWidth()+20;
 //    verticalPadding = catImage1.getImageHeight()+20;
-   purchaseError1 = new GraphicsText("Insuffcient funds :(");
+   purchaseError1 = new GraphicsText("Insufficient funds :(");
    saleError1 = new GraphicsText("Cat must be selected to make sale");
    saleError2 = new GraphicsText("Only one cat can be sold at a time");
    evolveError = new GraphicsText("Two cats must be selected");
@@ -198,7 +198,7 @@ public void evolveCat(String fileName1, String fileName2){
 
 
     String s = String.valueOf(market.getMoney());
-    currencyCount.setText("Available Currency: " +(s));
+    currencyCount.setText("Available Currency: " + s);
 
     addCatButton(x, y, catFileMap.get(newCat), catImage);
     canvas.draw();
@@ -223,7 +223,7 @@ public void buyCat(){
        if(newCat!=null){
             fileCatMap.put(new File(newCat.getFilepathKilt()), newCat);
             catFileMap.put(newCat, new File(newCat.getFilepathKilt()));
-            // System.out.println(newCat.getFilepathKilt());
+            System.out.println(newCat.getFilepathKilt());
             canvas.pause(1000);
             Image catImage = new Image(newCat.getFilepathKilt());
             catList.add(catImage);
