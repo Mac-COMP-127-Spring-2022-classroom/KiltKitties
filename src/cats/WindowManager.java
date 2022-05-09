@@ -70,7 +70,7 @@ public class WindowManager extends Achievement{
    evolveError = new GraphicsText("Two cats must be selected");
    catName = new GraphicsText("Kitty");
    currencyCount = new GraphicsText("Available Currency: 1000");
-   currencyCount.setPosition(50, 700);
+   currencyCount.setPosition(CANVAS_WIDTH * 0.5 - currencyCount.getWidth() / 2, CANVAS_HEIGHT * 0.65);
    canvas.add(currencyCount);
    buyButton = new Button("Buy New Cat");
    buyButton.setPosition(CANVAS_WIDTH*0.4 - buyButton.getWidth(), CANVAS_HEIGHT*0.7);
